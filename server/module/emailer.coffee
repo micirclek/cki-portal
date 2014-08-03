@@ -4,7 +4,7 @@ Handlebars = require('handlebars')
 
 class Emailer
   @initialize: ->
-    @transport = nodemailer.createTransport "SMTP",
+    @transport = nodemailer.createTransport
       host: Settings.get('email.host')
       secureConnection: Settings.get('email.secure')
       port: Settings.get('email.port')
