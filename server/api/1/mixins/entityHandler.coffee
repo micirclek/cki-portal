@@ -97,6 +97,7 @@ class EntityHandler
         Promise.ninvoke(invitation, 'save')
         .then =>
           if isNew
+            data.url = Settings.get('server.fullDomain')
             Emailer.send
               subject: 'You have been added as an officer of the ' + data.name + ' ' + data.type
               to: data.email
