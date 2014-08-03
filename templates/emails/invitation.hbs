@@ -1,0 +1,19 @@
+{{#if html}}
+<p>
+  You have been invited to be an officer for the {{name}} {{type}} on the
+  Circle K Portal!  To sign up, please go to <a href="{{url}}">{{url}}</a>.
+</p>
+
+<p>
+  Please note that you will need to sign up with the email {{email}} for
+  this to be effective immediately.  Other emails can be added by any
+  current officer.
+</p>
+{{else}}
+You have been invited to be an officer for the {{name}} {{type}} on the
+Circle K Portal!  To sign up, please go to {{url}}.
+
+Please note that you will need to sign up with the email {{email}}
+for this to be effective immediately.  Other emails can be added by any
+current officer.
+{{/if}}

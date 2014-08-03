@@ -1,0 +1,43 @@
+{
+  "name": "ckiportal",
+  "description": "A simple reporting system for Circle K clubs",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/micirclek/portal"
+  },
+  "scripts": {
+    "prestart": "handlebars -c handlebars -e hbs -f templates/index.js templates/",
+    "start": "coffee app.coffee"
+  },
+  "dependencies": {
+    "bluebird": "^2.2.2",
+    "body-parser": "^1.5.2",
+    "coffee-backtrace": "^0.3.5",
+    "coffee-script": "^1.7.1",
+    "config": "^1.0.2",
+    "cookie-parser": "^1.3.2",
+    "express": "^4.7.2",
+    "handlebars": "^2.0.0-alpha.4",
+    "moment": "^2.8.1",
+    "mongoose": "~3.8.14",
+    "morgan": "^1.2.2",
+    "ms": "^0.6.2",
+    "nconf": "^0.6.9",
+    "nodemailer": "^1.1.1",
+    "passport": "^0.2.0",
+    "passport-google-oauth": "^0.1.5",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^0.3.0",
+    "raven": "^0.7.0",
+    "require-dir": "^0.1.0",
+    "serve-favicon": "^2.0.1",
+    "underscore": "^1.6.0",
+    "winston": "^0.7.3",
+    "winston-loggly": "^1.0.1"
+  },
+  "engines": {
+    "node": "0.10.30"
+  }
+}

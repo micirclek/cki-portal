@@ -1,0 +1,23 @@
+{{#if html}}
+<p>The {{entityName}} has submitted their {{monthFor}} MRF!</p>
+<dl>
+  <dt>Service Hours</dt>
+  <dd>{{serviceHours}}</dd>
+  <dt>Interclubs</dt>
+  <dd>{{interclubs}}</dd>
+  <dt>K-Fam Events</dt>
+  <dd>{{kfamEvents}}</dt>
+</dl>
+
+<p>This report can be viewed online at <a href="{{url}}">{{url}}</a></p>
+{{else}}
+The {{entityName}} has submitted their {{monthFor}} MRF!
+
+Service Hours: {{serviceHours}}
+
+Inteclubs: {{interclubs}}
+
+K-Fam Events: {{kfamEvents}}
+
+This report can be viewed online at {{url}}
+{{/if}}
