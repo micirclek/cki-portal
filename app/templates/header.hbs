@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle Navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand home-menu" href="#">Portal</a>
+  </div>
+
+  <div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+      <!-- stuff will go here -->
+    </ul>
+
+    <ul class="nav navbar-nav navbar-menu navbar-right">
+      {{#if me}}
+      <li><a href="#account">My Account</a></li>
+        <li><a href="#" class="logout">Logout</a></li>
+      {{/if}}
+    </ul>
+
+  </div>
+</div>

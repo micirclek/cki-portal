@@ -1,0 +1,45 @@
+{{#if prompt}}
+  <label for="report-question-{{name}}">{{prompt}}</label>
+{{/if}}
+
+{{#if simpleType}}
+  <input
+  {{#if textType}}
+    type="text"
+  {{/if}}
+  {{#if integerType}}
+    type="number" step="1"
+  {{/if}}
+  {{#if numberType}}
+    type="number" step="any"
+  {{/if}}
+  id="report-question-{{name}}" class="form-control" value="{{value}}" />
+{{/if}}
+{{#if blockType}}
+  <textarea id ="report-question-{{name}}" class="form-control">{{value}}</textarea>
+{{/if}}
+{{#if dateType}}
+  <div id="report-question-{{name}}" class="input-group date">
+    <input type="text" class="form-control" value="{{value}}" />
+    <span class="input-group-addon">
+      <i class="glyphicon glyphicon-th"></i>
+    </span>
+  </div>
+{{/if}}
+{{#if boolType}}
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-default {{#if valueTrue}}active{{/if}}">
+    <input type="radio" value="true" {{#if valueTrue}}checked=""{{/if}}> Yes
+  </label>
+  <label class="btn btn-default {{#if valueFalse}}active{{/if}}">
+    <input type="radio" value="false" {{#if valueFalse}}checked=""{{/if}}> No
+  </label>
+</div>
+{{/if}}
+{{#if selectType}}
+  <select id="report-question-{{name}}" class="form-control">
+  {{#each options}}
+    <option value="{{value}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+  {{/each}}
+  </select>
+{{/if}}

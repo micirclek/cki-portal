@@ -1,0 +1,21 @@
+<div class="jumbotron">
+  <h1>Welcome!</h1>
+
+  {{#if positions}}
+    <p>
+      It looks like you are pretty important and have a bunch of different
+      positions right now!  If you could select the one below that you want to
+      access, it would be greatly appreciated!
+    </p>
+    {{#each positions}}
+      <a href="{{link}}"><div class="btn btn-primary btn-large">{{name}}</div></a>
+    {{/each}}
+  {{else}}
+    <p>
+      You are not currently listed as an officer for any club or district.
+      This page will eventually give you some helpful options to get in touch
+      with whoever is supposed to add you, however, for now, please contact
+      another officer for help with that.
+    </p>
+  {{/if}}
+</div>

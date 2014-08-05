@@ -1,7 +1,9 @@
-/node_modules
-/client
-/keys
-/public
-Procfile
+/bower_components
 /config
+/keys
+/node_modules
+/public
+
 templates/index.js
+npm-debug.log
+Procfile

@@ -1,0 +1,19 @@
+<form>
+  <div class="form-group">
+    <label for="new-officer-email">Email</label>
+    <input type="text" id="new-officer-email" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="new-officer-year">Year</label>
+    <select id="new-officer-year" class="form-control">
+      {{#each years}}
+        <option value="{{val}}">{{name}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-default js-submit">
+    Add new officer
+  </button>
+</form>
