@@ -2,6 +2,7 @@ Handler = require('./handler')
 Db = App.module('database')
 Emailer = App.module('emailer')
 
+config = require('config')
 moment = require('moment')
 validators = require('./validators')
 
@@ -150,7 +151,7 @@ class Report extends Handler
             data = req.model.toJSON()
             data.entityName = entity.name + ' ' + req.model.for.modelType
             data.monthFor = moment(req.model.dateFor).format('MMMM')
-            data.url = Settings.get('server.fullDomain') + "/#reports/" + req.model.id
+            data.url = config.get('server.fullDomain') + "/#reports/" + req.model.id
 
             if req.model.for.modelType == 'Club'
               directOfficers = Db.User.findByPosition(level: 'club', idClub: entity.id)

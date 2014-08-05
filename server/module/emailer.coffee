@@ -3,14 +3,12 @@ nodemailer = require('nodemailer')
 Handlebars = require('handlebars')
 
 class Emailer
-  @initialize: ->
+  @initialize: ({ host, secure, port, user, pass, @from, @enable }) ->
     @transport = nodemailer.createTransport
-      host: Settings.get('email.host')
-      secureConnection: Settings.get('email.secure')
-      port: Settings.get('email.port')
-      auth:
-        user: Settings.get('email.user')
-        pass: Settings.get('email.password')
+      host: host
+      secureConnection: secure
+      port: port
+      auth: { user, pass }
 
     return @
 
@@ -24,15 +22,14 @@ class Emailer
         header: Handlebars.templates['emails/header'] ? ''
         footer: Handlebars.templates['emails/footer'] ? ''
 
-
   # options should at a minimum contain subject, to, template, data
   @send: (options) ->
-    if !Settings.get('email.enable')
+    if !@enable
       return Promise.resolve()
 
     options.subject = '[CK] ' + options.subject
     options = _.defaults options,
-      from: Settings.get('email.from')
+      from: @from
       text: @_template(options.template, options.data, false)
       html: @_template(options.template, options.data, true)
 

@@ -3,5 +3,5 @@
 /keys
 /public
 Procfile
-config/local.coffee
+/config
 templates/index.js

@@ -1,28 +1,8 @@
 # initial requires (set up coffeescript stuff)
-require('coffee-backtrace')
-
-# reqired for the globals
-path = require('path')
-winston = require('winston')
-ROOT_DIRECTORY = __dirname
-
-# globals
-global.Promise = require('bluebird')
-global.App =
-  module: (name) ->
-    require(path.join(ROOT_DIRECTORY, 'server/module', name))
-
-  lib: (name) ->
-    require(path.join(ROOT_DIRECTORY, 'server/lib', name))
-
-  path: (relpath...) ->
-    path.join(ROOT_DIRECTORY, relpath...)
-global._ = require('underscore')
-global.Settings = require('config')
-global.Util = require('./server/util')
-global.Logger = new winston.Logger
+require('./server/lib/bootstrap')
 
 bodyParser = require('body-parser')
+config = require('config')
 cookieParser = require('cookie-parser')
 express = require('express')
 favicon = require('serve-favicon')
@@ -32,35 +12,45 @@ https = require('https')
 loggly = require('winston-loggly')
 morgan = require('morgan')
 passport = require('passport')
-path = require('path')
 raven = require('raven')
 requireDir = require('require-dir')
+winston = require('winston')
 
 Handler = require(App.path('server/api/1/handler'))
 LocalStrategy = require('passport-local').Strategy
 RavenLogger = App.lib('ravenLogger')
 
 # require and initialize modules
-Db = App.module('database').initialize()
-Emailer = App.module('emailer').initialize()
+Db = App.module('database').initialize
+  host: config.get('db.host')
+  name: config.get('db.name')
+  port: config.get('db.port')
+Emailer = App.module('emailer').initialize
+  host: config.get('email.host')
+  secure: config.get('email.secure')
+  port: config.get('email.port')
+  user: config.get('email.user')
+  pass: config.get('email.password')
+  from: config.get('email.from')
+  enable: config.get('email.enable')
 
 requireDir(App.path('server/ext'))
 require(App.path('templates')) # handlebars templates
 
-Logger.add(winston.transports.Console, level: Settings.get('logging.consoleLevel'))
+Logger.add(winston.transports.Console, level: config.get('logging.consoleLevel'))
 
-if Settings.get('logging.logglyLevel') != 'silent'
+if config.get('logging.logglyLevel') != 'silent'
   Logger.add loggly.Loggly,
-    level: Settings.get('logging.logglyLevel')
-    subdomain: Settings.get('logging.logglySubdomain')
-    inputToken: Settings.get('logging.logglyToken')
+    level: config.get('logging.logglyLevel')
+    subdomain: config.get('logging.logglySubdomain')
+    inputToken: config.get('logging.logglyToken')
     json: true
     stripColors: true
 
-if Settings.get('logging.ravenLevel') != 'silent'
-  ravenClient = new raven.Client(Settings.get('logging.sentryDSN'))
+if config.get('logging.ravenLevel') != 'silent'
+  ravenClient = new raven.Client(config.get('logging.sentryDSN'))
   Logger.add RavenLogger,
-    level: Settings.get('logging.ravenLevel')
+    level: config.get('logging.ravenLevel')
     raven: ravenClient
 
 app = express()
@@ -72,13 +62,17 @@ loggerStream =
   write: (message) ->
     Logger.info(message.trim())
 
-app.set('port', Number(process.env.PORT || Settings.get('server.port')))
+app.set('port', Number(process.env.PORT || config.get('server.port')))
 app.use(morgan('dev', stream: loggerStream))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded(extended: true))
-app.use(cookieParser(Settings.get('secret')))
-app.use(favicon(App.path(Settings.get('paths.staticPath'), '/favicon.ico')))
-app.use(express.static(App.path(Settings.get('paths.staticPath'))))
+app.use(cookieParser(config.get('secret')))
+app.use(favicon(App.path(config.get('paths.staticPath'), '/favicon.ico')))
+app.use(express.static(App.path(config.get('paths.staticPath'))))
+
+passport.use(Db.User.createStrategy())
+passport.serializeUser(Db.User.serializeUser())
+passport.deserializeUser(Db.User.deserializeUser())
 
 app.use passport.initialize
   userProperty: 'me'
