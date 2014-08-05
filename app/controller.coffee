@@ -13,6 +13,7 @@ WelcomeView = require('views/welcome')
 
 class Controller extends Backbone.Router
   initialize: ->
+    @view = null
     @headerView = new HeaderView()
     $('#header').html(@headerView.render().el)
     @listenTo Session.me, 'change:_id', -> window.location.reload()
@@ -29,17 +30,24 @@ class Controller extends Backbone.Router
     ':level/:id/report/new/:idForm': 'newReport'
     'reports/:id': 'openReport'
 
+  switchView: (view) ->
+    @view = view
+    $('#content').html(view.render().el)
+
   wait: (requireAuth = false) ->
+    if @view
+      @view.stopListening()
     Promise.try =>
       if !Session.loggedIn()
         if requireAuth
           Util.showAlert('You must be logged in to view this page')
           @navigate('', trigger: true, replace: true)
-        return
+        return false
       if Session.me.synced
-        return
+        return true
       new Promise (resolve, reject) =>
-        @listenToOnce Session.me, 'change:synced', resolve
+        @listenToOnce Session.me, 'change:synced', =>
+          resolve(Session.loggedIn())
 
   getPosition: (level) ->
     positions = Session.me.positions.getCurrent()
@@ -59,7 +67,7 @@ class Controller extends Backbone.Router
   home: (level) ->
     @wait().then =>
       if !Session.loggedIn()
-        return $('#content').html(new LoginView().render().el)
+        return @switchView new LoginView()
 
       try
         position = @getPosition(level)
@@ -67,7 +75,7 @@ class Controller extends Backbone.Router
         @navigate(url, trigger: true, replace: true)
       catch err
         if err.message in ['noPosition', 'multiplePositions']
-          $('#content').html(new WelcomeView().render().el)
+          @switchView new WelcomeView()
         else
           throw err
     .catch (err) =>
@@ -75,12 +83,18 @@ class Controller extends Backbone.Router
     .done()
 
   account: ->
-    @wait().then =>
-      $('#content').html(new AccountView(model: Session.me).render().el)
+    @wait(true).then (loggedIn) =>
+      if !loggedIn
+        return
+
+      @switchView new AccountView(model: Session.me)
     .done()
 
   clubHome: (idClub) ->
-    @wait(true).then =>
+    @wait(true).then (loggedIn) =>
+      if !loggedIn
+        return
+
       club = new Club(_id: idClub)
 
       serviceYearStart = Util.getServiceYear()[0..3]
@@ -93,11 +107,13 @@ class Controller extends Backbone.Router
         officers: true
 
       club.fetch({ data }).then =>
-        landingView = new LandingView(model: club)
-        $('#content').html(landingView.render().el)
+        @switchView new LandingView(model: club)
 
   districtHome: (idDistrict) ->
-    @wait(true).then =>
+    @wait(true).then (loggedIn) =>
+      if !loggedIn
+        return
+
       district = new District(_id: idDistrict)
 
       serviceYearStart = Util.getServiceYear()[0..3]
@@ -112,11 +128,13 @@ class Controller extends Backbone.Router
         officers: true
 
       district.fetch({ data }).then =>
-        landingView = new LandingView(model: district)
-        $('#content').html(landingView.render().el)
+        @switchView new LandingView(model: district)
 
   newReport: (level, idEntity, idForm) ->
-    @wait(true).then =>
+    @wait(true).then (loggedIn) =>
+      if !loggedIn
+        return
+
       report = new Report
         for: {
           idModel: idEntity
@@ -131,16 +149,17 @@ class Controller extends Backbone.Router
       form.fetch().then ->
         report.set(idForm: form.id)
 
-        view = new ReportView({ model: report, form })
-        $('#content').html(view.render().el)
+        @view new ReportView({ model: report, form })
 
   openReport: (idReport) ->
-    @wait(true).then =>
+    @wait(true).then (loggedIn) =>
+      if !loggedIn
+        return
+
       report = new Report(_id: idReport)
       report.fetch().then ->
         form = new Form(_id: report.get('idForm'))
         form.fetch().then ->
-          view = new ReportView({ model: report, form })
-          $('#content').html(view.render().el)
+          @view new ReportView({ model: report, form })
 
 module.exports = Controller

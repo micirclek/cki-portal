@@ -38,7 +38,6 @@ class Session
       @setUserId(me.id)
 
   logout: ->
-    # TODO we seem to be failing to handle this perfectly
     Backbone.ajax
       type: 'POST'
       url: '/1/auth/logout'
