@@ -5,15 +5,15 @@
     <div class="panel-heading js-toggle-panel">
       <h4 class="panel-title">
         <a href="#">{{name}}</a>
-        <span class="label
         {{#if currentMonthSubmitted}}
-          label-success
+          <span class="label label-success" title="Report submitted">
         {{else}}{{#if currentMonthStarted}}
-          label-warning
+          <span class="label label-warning" title="Report started">
         {{else}}
-          label-danger
+          <span class="label label-danger" title="Report not started">
         {{/if}}{{/if}}
-        ">{{date ../currentMonth "MMMM"}}</span>
+        {{date ../currentMonth "MMMM"}}</span>
+
         {{#if countTotal}}
           <small>
             {{countSubmitted}} report{{#if multipleSubmitted}}s{{/if}} submitted this year
