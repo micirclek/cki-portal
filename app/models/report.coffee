@@ -103,7 +103,7 @@ class Report extends AppModel
       data:
         value: false
     .then =>
-      @model.set(submitted: false)
+      @set(submitted: false)
       Util.showAlert('Report reopened', 'alert-success')
 
 class ReportCollection extends Backbone.Collection
