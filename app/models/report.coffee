@@ -42,10 +42,10 @@ class Report extends AppModel
     entityFor = @get('for')
     if @get('submitted')
       # TODO verify which district
-      return !Session.me.positions.getCurrent().chain()
+      return Session.me.positions.getCurrent().chain()
       .find (position) =>
         position.get('level') in ['district', 'international']
-      value()?
+      .value()?
     else
       return Session.me.positions.getCurrent().chain()
       .find (position) =>
