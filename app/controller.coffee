@@ -67,7 +67,7 @@ class Controller extends Backbone.Router
   home: (level) ->
     @wait().then =>
       if !Session.loggedIn()
-        return @switchView new LoginView()
+        return @switchView(new LoginView())
 
       try
         position = @getPosition(level)
@@ -75,7 +75,7 @@ class Controller extends Backbone.Router
         @navigate(url, trigger: true, replace: true)
       catch err
         if err.message in ['noPosition', 'multiplePositions']
-          @switchView new WelcomeView()
+          @switchView(new WelcomeView())
         else
           throw err
     .catch (err) =>
@@ -87,7 +87,7 @@ class Controller extends Backbone.Router
       if !loggedIn
         return
 
-      @switchView new AccountView(model: Session.me)
+      @switchView(new AccountView(model: Session.me))
     .done()
 
   clubHome: (idClub) ->
@@ -107,7 +107,7 @@ class Controller extends Backbone.Router
         officers: true
 
       club.fetch({ data }).then =>
-        @switchView new LandingView(model: club)
+        @switchView(new LandingView(model: club))
 
   districtHome: (idDistrict) ->
     @wait(true).then (loggedIn) =>
@@ -128,7 +128,7 @@ class Controller extends Backbone.Router
         officers: true
 
       district.fetch({ data }).then =>
-        @switchView new LandingView(model: district)
+        @switchView(new LandingView(model: district))
 
   newReport: (level, idEntity, idForm) ->
     @wait(true).then (loggedIn) =>
@@ -146,10 +146,10 @@ class Controller extends Backbone.Router
         return
 
       form = new Form(_id: idForm)
-      form.fetch().then ->
+      form.fetch().then =>
         report.set(idForm: form.id)
 
-        @view new ReportView({ model: report, form })
+        @switchView(new ReportView({ model: report, form }))
 
   openReport: (idReport) ->
     @wait(true).then (loggedIn) =>
@@ -157,9 +157,9 @@ class Controller extends Backbone.Router
         return
 
       report = new Report(_id: idReport)
-      report.fetch().then ->
+      report.fetch().then =>
         form = new Form(_id: report.get('idForm'))
-        form.fetch().then ->
-          @view new ReportView({ model: report, form })
+        form.fetch().then =>
+          @switchView(new ReportView({ model: report, form }))
 
 module.exports = Controller
