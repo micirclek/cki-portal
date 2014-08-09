@@ -14,7 +14,7 @@ class District extends Entity
     data = super
     data.clubs = @clubs.toJSON()
 
-    return
+    return data
 
   constructor: ->
     @clubs = new Club.Collection
