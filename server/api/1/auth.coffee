@@ -50,8 +50,8 @@ class Auth extends Handler
         noId: true
         anonymous: true
         arguments:
-          email: { validator: validators.email }
-          password: { validator: { stringInRange: { min: 4, max: 16384 } } }
+          email: { validator: validators.email() }
+          password: { validator: validators.string(4) }
         fx: (req) ->
           email = req.args.email
 
@@ -74,8 +74,8 @@ class Auth extends Handler
         noId: true
         anonymous: true
         arguments:
-          email: { validator: validators.email }
-          password: { validator: validators.string }
+          email: { validator: validators.email() }
+          password: { validator: validators.string() }
         fx: (req) ->
           strategy = passport.authenticate('local', { session: false })
           Promise.nfcall(strategy, req.req, req.res)

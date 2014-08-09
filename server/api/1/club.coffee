@@ -17,13 +17,13 @@ class Club extends Handler
       '':
         permissions: ['read']
         arguments:
-          reports: { validator: validators.bool, default: false }
-          forms: { validator: validators.bool, default: false }
-          officers: { validator: validators.bool, default: false }
+          reports: { validator: validators.bool(), default: false }
+          forms: { validator: validators.bool(), default: false }
+          officers: { validator: validators.bool(), default: false }
 
-          stats: { validator: validators.bool, default: false }
-          stats_start: { validator: validators.date, optional: true }
-          stats_end: { validator: validators.date, optional: true }
+          stats: { validator: validators.bool(), default: false }
+          stats_start: { validator: validators.date(), optional: true }
+          stats_end: { validator: validators.date(), optional: true }
         fx: (req) ->
           extras = {}
           if req.args.reports
@@ -48,9 +48,9 @@ class Club extends Handler
       '/officers':
         permissions: ['write|manage']
         arguments:
-          email: { validator: validators.email }
-          start: { validator: validators.date }
-          end: { validator: validators.date }
+          email: { validator: validators.email() }
+          start: { validator: validators.date() }
+          end: { validator: validators.date() }
         fx: (req) ->
           @addOfficer(req)
 

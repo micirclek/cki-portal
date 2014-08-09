@@ -19,46 +19,28 @@ class Request
       else
         value = query[name]
 
-      if about.validator
+      if !value?
+        if about.default?
+          value = about.default
+        else if !about.optional
+          throw Error.ApiError('No value provided')
+      else if about.validator
         try
           value = @validateArgument(about, value)
-          if !value?
-            if about.default?
-              value = about.default
-            else if !about.optional
-              throw Error('No value provided')
         catch e
+          if e !instanceof Error.ApiError
+            Logger.error(e)
+
           throw Error.ApiError('Invalid value for ' + name, 400)
 
       @args[name] = value
 
   validateArgument: (about, value) ->
     { validator } = about
-    if _.isFunction(validator)
-      return validator(value, about)
+    if !_.isFunction(validator)
+      throw Error('Invalid validator')
 
-    else if validator.numberInRange
-      { min, max, integer } = validator.numberInRange
-      min ?= -Infinity
-      max ?= Infinity
-      if integer
-        num = parseInt(value, 10)
-      else
-        num = parseFloat(value)
-
-      if _.isFinite(value) && min <= num <= max
-        return num
-      else
-        throw Error.ApiError('Number exceeded range', 400)
-
-    else if validator.stringInRange
-      { min, max } = validator.stringInRange
-      if _.isString(value) && min <= value.length <= max
-        return value
-      else
-        throw Error.ApiError('String is outside of range', 400)
-
-    throw Error.ApiError('No idea how to deal with this', 400)
+    return validator(value, about)
 
 class Handler
   loadModel: (request) ->

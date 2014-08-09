@@ -54,9 +54,9 @@ class Form extends Handler
         permissions: ['write']
         noId: true
         arguments:
-          for: { validator: validators.formFor }
-          questions: { validator: validators.array(validators.formQuestion) }
-          sections: { validator: validators.array(validators.formSection) }
+          for: { validator: validators.formFor() }
+          questions: { validator: validators.array(validators.formQuestion()) }
+          sections: { validator: validators.array(validators.formSection()) }
         fx: (req) ->
           Promise.try =>
             # verify that we are allowed to create this form

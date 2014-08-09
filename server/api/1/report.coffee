@@ -94,11 +94,11 @@ class Report extends Handler
       '':
         permissions: ['write']
         arguments:
-          dateFor: { validator: validators.date, optional: true }
-          serviceHours: { validator: validators.number, optional: true }
-          interclubs: { validator: validators.integer, optional: true }
-          kfamEvents: { validator: validators.integer, optional: true }
-          answers: { validator: validators.array(validators.reportAnswer), optional: true }
+          dateFor: { validator: validators.date(), optional: true }
+          serviceHours: { validator: validators.number(), optional: true }
+          interclubs: { validator: validators.integer(), optional: true }
+          kfamEvents: { validator: validators.integer(), optional: true }
+          answers: { validator: validators.array(validators.reportAnswer()), optional: true }
         fx: (req) ->
           { form, entity } = req.auxModels
 
@@ -117,7 +117,7 @@ class Report extends Handler
       '/submitted':
         permissions: ['write']
         arguments:
-          value: { validator: validators.bool }
+          value: { validator: validators.bool() }
         fx: (req) ->
           if !req.args.value
             req.model.submitted = false
@@ -173,13 +173,13 @@ class Report extends Handler
         permissions: ['write']
         noId: true
         arguments:
-          idForm: { validator: validators.id }
-          for: { validator: validators.reportFor }
-          dateFor: { validator: validators.date }
-          serviceHours: { validator: validators.number }
-          interclubs: { validator: validators.integer }
-          kfamEvents: { validator: validators.integer }
-          answers: { validator: validators.array(validators.reportAnswer) }
+          idForm: { validator: validators.id() }
+          for: { validator: validators.reportFor() }
+          dateFor: { validator: validators.date() }
+          serviceHours: { validator: validators.number() }
+          interclubs: { validator: validators.integer() }
+          kfamEvents: { validator: validators.integer() }
+          answers: { validator: validators.array(validators.reportAnswer()) }
         fx: (req) ->
           form = Db.Form.findById(req.args.idForm)
           entity = Db[req.args.for.modelType].findById(req.args.for.idModel)

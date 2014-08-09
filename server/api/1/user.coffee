@@ -55,7 +55,7 @@ class User extends Handler
     get:
       '':
         arguments:
-          position_names: { validator: validators.bool, default: false }
+          position_names: { validator: validators.bool(), default: false }
         permissions: ['read']
         fx: (req) ->
           extras = {}
@@ -94,8 +94,8 @@ class User extends Handler
       '/setPassword':
         permissions: ['write']
         arguments:
-          oldPassword: { validator: validators.string, optional: true }
-          newPassword: { validator: { stringInRange: { min: 4, max: 16384 } } }
+          oldPassword: { validator: validators.string(), optional: true }
+          newPassword: { validator: validators.string(4) }
         fx: (req) ->
           allowed = if req.model.hash
             Promise.ninvoke(req.model, 'authenticate', req.args.oldPassword)
