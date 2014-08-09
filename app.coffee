@@ -50,6 +50,11 @@ if config.get('logging.ravenLevel') != 'silent'
     level: config.get('logging.ravenLevel')
     raven: ravenClient
 
+Promise.onPossiblyUnhandledRejection (err, promise) ->
+  Logger.error(err)
+
+Promise.longStackTraces()
+
 app = express()
 
 # do not log url parameters

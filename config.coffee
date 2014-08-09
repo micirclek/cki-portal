@@ -17,3 +17,6 @@ exports.config =
         after: []
     templates:
       joinTo: 'js/app.js'
+  overrides:
+    production:
+      sourceMaps: true

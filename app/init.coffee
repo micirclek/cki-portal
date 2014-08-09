@@ -39,6 +39,8 @@ $ ->
       extras:
         fromUnhandledPromise: true
 
+  Promise.longStackTraces()
+
   Handlebars.registerHelper 'date', (date, format = 'YYYY-MM-DD HH:mm') ->
     moment(date).format(format)
 
