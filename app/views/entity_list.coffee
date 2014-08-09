@@ -4,6 +4,9 @@ class EntityListView extends AppView
   events:
     'click .js-toggle-panel': (args...) -> Util.togglePanel(args...)
 
+  initialize: ({ @parent }) ->
+    super
+
   render: ->
     entities = @model.map (entity) =>
       years = Util.mapToYears(entity.reports.toArray())
@@ -33,7 +36,7 @@ class EntityListView extends AppView
     entities = _.sortBy(entities, 'name')
 
     currentMonth = new Date(new Date().getFullYear(), new Date().getMonth() - 1)
-    data = { entities, currentMonth, title: 'Clubs in the Michigan District' }
+    data = { entities, currentMonth, parent: @parent.toJSON(), typeFor: @parent.typeName }
 
     @$el.html(@template('entity_list', data))
 
