@@ -13,12 +13,12 @@ class Report extends Handler
   validateAnswers = (answers, questions, final = false) ->
     if final
       for question in questions
-        answers = _.where(answers, { question: question.name })
+        matched = _.where(answers, { question: question.name })
 
-        if answers.length == 0
+        if matched.length == 0
           if question.properties?.required
             throw Error.ApiError('Question ' + question.name + ' is required', 400)
-        else if answers.length > 1
+        else if matched.length > 1
           throw Error.ApiError('Question ' + question.name + ' should only have one answer', 400)
 
     _.map answers, (answer) ->
