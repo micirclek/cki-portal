@@ -1,5 +1,8 @@
+<div class="form-group
+{{#if properties.required}} required{{/if}}
+">
 {{#if prompt}}
-  <label for="report-question-{{name}}">{{prompt}}</label>
+  <label class="control-label" for="report-question-{{name}}">{{prompt}}</label>
 {{/if}}
 
 {{#if simpleType}}
@@ -13,14 +16,20 @@
   {{#if numberType}}
     type="number" step="any"
   {{/if}}
-  id="report-question-{{name}}" class="form-control" value="{{value}}" />
+  id="report-question-{{name}}" class="form-control" value="{{value}}"
+  {{#if properties.required}}required{{/if}}
+  />
 {{/if}}
 {{#if blockType}}
-  <textarea id ="report-question-{{name}}" class="form-control">{{value}}</textarea>
+  <textarea id="report-question-{{name}}" class="form-control"
+  {{#if properties.required}}required{{/if}}
+  >{{value}}</textarea>
 {{/if}}
 {{#if dateType}}
   <div id="report-question-{{name}}" class="input-group date">
-    <input type="text" class="form-control" value="{{value}}" />
+    <input type="text" class="form-control" value="{{value}}"
+    {{#if properties.required}}required{{/if}}
+    />
     <span class="input-group-addon">
       <i class="glyphicon glyphicon-th"></i>
     </span>
@@ -29,17 +38,25 @@
 {{#if boolType}}
 <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-default {{#if valueTrue}}active{{/if}}">
-    <input type="radio" value="true" {{#if valueTrue}}checked=""{{/if}}> Yes
+    <input type="radio" value="true"
+    {{#if properties.required}}required{{/if}}
+    {{#if valueTrue}}checked=""{{/if}}> Yes
   </label>
   <label class="btn btn-default {{#if valueFalse}}active{{/if}}">
-    <input type="radio" value="false" {{#if valueFalse}}checked=""{{/if}}> No
+    <input type="radio" value="false"
+    {{#if properties.required}}required{{/if}}
+    {{#if valueFalse}}checked=""{{/if}}
+    > No
   </label>
 </div>
 {{/if}}
 {{#if selectType}}
-  <select id="report-question-{{name}}" class="form-control">
+  <select id="report-question-{{name}}" class="form-control"
+  {{#if properties.required}}required{{/if}}
+  >
   {{#each options}}
     <option value="{{value}}" {{#if selected}}selected{{/if}}>{{name}}</option>
   {{/each}}
   </select>
 {{/if}}
+</div>
