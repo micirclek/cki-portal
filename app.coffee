@@ -34,9 +34,6 @@ Emailer = App.module('emailer').initialize
   from: config.get('email.from')
   enable: config.get('email.enable')
 
-requireDir(App.path('server/ext'))
-require(App.path('templates')) # handlebars templates
-
 Logger.add(winston.transports.Console, level: config.get('logging.consoleLevel'))
 
 if config.get('logging.logglyLevel') != 'silent'
