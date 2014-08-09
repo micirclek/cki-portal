@@ -3,3 +3,12 @@
   right: 60px;
   top: 60px;
 }
+
+/* force disabled default buttons in a group to still show which is active */
+.btn-group .btn-default.disabled.active,
+.btn-group .btn-default[disabled].active,
+fieldset[disabled] .btn-group .btn-default.active {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
