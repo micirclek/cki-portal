@@ -94,7 +94,7 @@ class User extends Handler
       '':
         permissions: ['write']
         arguments:
-          name: { validator: validators.string }
+          name: { validator: validators.string() }
         fx: (req) ->
           req.model.name = req.args.name
           Promise.ninvoke(req.model, 'save').then =>
@@ -105,7 +105,7 @@ class User extends Handler
       '/name':
         permissions: ['write']
         arguments:
-          value: { validator: validators.string }
+          value: { validator: validators.string() }
         fx: (req) ->
           req.model.name = req.args.value
           Promise.ninvoke(req.model, 'save').then =>
