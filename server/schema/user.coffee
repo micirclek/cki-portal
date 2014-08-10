@@ -18,12 +18,15 @@ SessionSchema = new Schema 'Session',
   expires: Date
 
 UserSchema = new Schema 'User',
+  name: String
   email: String
   admin: Boolean
   credentials: [{
     email: String
     provider: { type: String, enum: ['google', 'password'] }
   }]
+
+  # the passport-local-mongoose plugin also adds hash and salt as strings here
 
   positions: [PositionSchema]
 
