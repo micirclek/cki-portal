@@ -34,4 +34,14 @@ DistrictSchema.methods.loadForms = ->
 
   Promise.resolve(query.exec())
 
+DistrictSchema.methods.loadChildForms = ->
+  query = Db.Form.find()
+  .where
+    'for.modelType': 'Club'
+    'for.idDistrict': @_id
+    active: true
+  .select('name published active')
+
+  Promise.resolve(query.exec())
+
 module.exports = DistrictSchema

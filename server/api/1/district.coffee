@@ -18,6 +18,7 @@ class District extends Handler
         arguments:
           reports: { validator: validators.bool(), default: false }
           forms: { validator: validators.bool(), default: false }
+          childForms: { validator: validators.bool(), default: false }
           officers: { validator: validators.bool(), default: false }
 
           clubs: { validator: validators.bool(), default: false }
@@ -33,6 +34,8 @@ class District extends Handler
             extras.reports = req.model.loadReports()
           if req.args.forms
             extras.forms = req.model.loadForms()
+          if req.args.childForms
+            extras.childForms = req.model.loadChildForms()
           if req.args.officers
             extras.officers = @getOfficers(req.model)
 
