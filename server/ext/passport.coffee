@@ -10,7 +10,9 @@ processAuth = (provider, profile) ->
   Promise.resolve(Db.User.findByEmail(email).exec())
   .then (user) ->
     if !user
-      user = new Db.User({ email })
+      user = new Db.User
+        email: email
+        name: profile.displayName
 
     if !_.findWhere(user.credentials, { provider })
       user.credentials.push { email, provider }

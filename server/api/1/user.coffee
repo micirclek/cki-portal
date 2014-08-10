@@ -90,6 +90,29 @@ class User extends Handler
             response.loginTypes = @getLoginTypes(req.model)
             return response
 
+    put:
+      '':
+        permissions: ['write']
+        arguments:
+          name: { validator: validators.string }
+        fx: (req) ->
+          req.model.name = req.args.name
+          Promise.ninvoke(req.model, 'save').then =>
+            response = _.omit(req.model.toJSON(), 'credentials', 'hash', 'salt')
+            response.loginTypes = @getLoginTypes(req.model)
+            return response
+
+      '/name':
+        permissions: ['write']
+        arguments:
+          value: { validator: validators.string }
+        fx: (req) ->
+          req.model.name = req.args.value
+          Promise.ninvoke(req.model, 'save').then =>
+            response = _.omit(req.model.toJSON(), 'credentials', 'hash', 'salt')
+            response.loginTypes = @getLoginTypes(req.model)
+            return response
+
     post:
       '/setPassword':
         permissions: ['write']
