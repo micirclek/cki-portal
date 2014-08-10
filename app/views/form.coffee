@@ -1,5 +1,42 @@
 AppView = require('views/appview')
 
+class SelectOptionsView extends AppView
+  events:
+    'change input': 'update'
+    'keydown input:last': -> @addRow()
+
+  initialize: ({ @form }) ->
+    super
+
+  render: ->
+    @$el.html(@template('form_question_options'))
+
+    properties = @model.get('properties')
+    for option in properties?.options ? []
+      @addRow(option)
+
+    if !@form.get('published')
+      @addRow()
+
+    return @
+
+  addRow: (value) ->
+    data =
+      value: value
+      disabled: if @form.get('published') then 'disabled' else ''
+
+    @$('.js-options').append(@template('form_question_option', data))
+
+  update: ->
+    options = []
+    _.each @$('input'), (el) ->
+      val = $(el).val()
+      if val
+        options.push(val)
+    properties = @model.get('properties')
+    properties.options = options
+    @model.set({ properties })
+
 class QuestionView extends AppView
   events:
     'change .js-question-name': 'changeName'
@@ -8,6 +45,7 @@ class QuestionView extends AppView
     'change .js-question-type': 'changeType'
 
   initialize: ({ @form }) ->
+    @listenTo @model, 'change:type', @render
     super
 
   render: ->
@@ -21,6 +59,9 @@ class QuestionView extends AppView
         selected: type == @model.get('type')
 
     @$el.html(@template('form_question', data))
+
+    if data.type == 'select'
+      @$('.js-options').html(new SelectOptionsView({ @model, @form }).render().el)
 
     return @
 
@@ -48,7 +89,15 @@ class QuestionView extends AppView
     @model.set('properties', properties)
 
   changeType: ({ target }) ->
-    @model.set(type: @$(target).val())
+    type = @$(target).val()
+    properties = @model.get('properties')
+    delete properties.options
+    delete properties.fields
+
+    if type in ['table']
+      delete properties.required
+
+    @model.set({ properties, type })
 
 class SectionView extends AppView
   events:
