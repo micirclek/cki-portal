@@ -1,37 +1,48 @@
 <div class="question panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">Question</h4>
+  </div>
+
   <div class="panel-body">
 
     <div class="form-group">
-      <label class="control-label" for="{{uid}}-name">Question Name</label>
-      <input type="text" id="{{uid}}-name" class="form-control js-question-name" value="{{name}}" {{disabled}} />
-    </div>
-
-    <div class="form-group">
-      <label class="control-label" for="{{name}}-prompt">Prompt</label>
-      <textarea id="{{uid}}-prompt" class="form-control js-question-prompt">{{prompt}}</textarea>
-    </div>
-
-    {{#if requiredOption}}
-      <div class="form-group">
-        <div class="checkbox">
-          <label>
-            <input class="js-question-required" type="checkbox" {{disabled}} {{#if properties.required}}checked{{/if}} /> Required
-          </label>
-        </div>
+      <label class="control-label col-sm-1" for="{{uid}}-name">Name</label>
+      <div class="col-sm-5">
+        <input type="text" id="{{uid}}-name" class="form-control js-question-name" value="{{name}}" {{disabled}} />
       </div>
-    {{/if}}
 
-    <div class="form-group">
-      <label class="control-label" for="{{uid}}-type">Type</label>
-      <select id="{{uid}}-type" class="form-control js-question-type" {{disabled}}>
-        <option value=""></option>
-        {{#each types}}
-          <option value="{{value}}" {{#if selected}}selected{{/if}}>{{name}}</option>
-        {{/each}}
-      </select>
+      <label class="control-label col-sm-1" for="{{uid}}-type">Type</label>
+      <div class="col-sm-3">
+        <select id="{{uid}}-type" class="form-control js-question-type" {{disabled}}>
+          <option value=""></option>
+          {{#each types}}
+            <option value="{{value}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="col-sm-2">
+        {{#if requiredOption}}
+          <div class="checkbox">
+            <label>
+              <input class="js-question-required" type="checkbox" {{disabled}} {{#if properties.required}}checked{{/if}} /> Required
+            </label>
+          </div>
+        {{/if}}
+      </div>
+
     </div>
 
-    <div class="js-options"></div>
+    <div class="form-group">
+      <label class="control-label col-sm-1" for="{{name}}-prompt">Prompt</label>
+      <div class="col-sm-11">
+        <textarea id="{{uid}}-prompt" class="form-control js-question-prompt">{{prompt}}</textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="js-options col-sm-12"></div>
+    </div>
 
   </div>
 </div>

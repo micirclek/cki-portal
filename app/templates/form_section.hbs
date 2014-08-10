@@ -1,24 +1,40 @@
 <div class="section panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">Section</h4>
+  </div>
+
   <div class="panel-body">
 
     <div class="form-group">
-      <label class="control-label" for="{{uid}}-name">Section Name</label>
-      <input type="text" id="{{uid}}-name" class="form-control js-section-name" value="{{name}}" {{disabled}} />
+
+      <label class="control-label col-sm-1" for="{{uid}}-title">Title</label>
+      <div class="col-sm-7">
+        <input type="text" id="{{uid}}-title" class="form-control js-section-title" value="{{title}}" />
+      </div>
+
+      <label class="control-label col-sm-1" for="{{uid}}-name">Name</label>
+      <div class="col-sm-3">
+        <input type="text" id="{{uid}}-name" class="form-control js-section-name" value="{{name}}" {{disabled}} />
+      </div>
+
     </div>
 
     <div class="form-group">
-      <label class="control-label" for="{{uid}}-title">Section Title</label>
-      <input type="text" id="{{uid}}-title" class="form-control js-section-title" value="{{title}}" />
+      <label class="control-label col-sm-1" for="{{uid}}-subtitle">Subtitle</label>
+      <div class="col-sm-11">
+        <input type="text" id="{{uid}}-subtitle" class="form-control js-section-subtitle" value="{{subtitle}}" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="js-questions col-sm-offset-1 col-sm-11"></div>
     </div>
 
     <div class="form-group">
-      <label class="control-label" for="{{uid}}-subtitle">Section Subtitle</label>
-      <input type="text" id="{{uid}}-subtitle" class="form-control js-section-subtitle" value="{{subtitle}}" />
+      <div class="col-sm-offset-1 col-sm-11">
+        <button type="button" class="btn btn-default js-add-question" {{disabled}}>Add Question</button>
+      </div>
     </div>
-
-    <div class="js-questions"></div>
-
-    <button type="button" class="btn btn-default js-add-question" {{disabled}}>Add Question</button>
 
   </div>
 </div>
