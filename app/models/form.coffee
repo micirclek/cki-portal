@@ -3,7 +3,7 @@ AppModel = require('models/appmodel')
 class Question extends AppModel
   typeName: 'Question'
 
-  defaults:
+  defaults: ->
     _id: null
     name: ''
     type: ''
@@ -35,7 +35,7 @@ class Form extends AppModel
   typeName: 'Form'
   urlRoot: '/1/forms'
 
-  defaults:
+  defaults: ->
     _id: null
 
     for: {

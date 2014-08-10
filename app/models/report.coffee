@@ -20,7 +20,7 @@ class Report extends AppModel
   typeName: 'Report'
   urlRoot: '/1/reports'
 
-  defaults:
+  defaults: ->
     _id: null
     idForm: null
 

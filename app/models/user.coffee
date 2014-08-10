@@ -81,7 +81,6 @@ class User extends AppModel
     name: ''
     email: ''
     admin: false
-    idHomeClub: null
 
 class UserCollection extends Backbone.Collection
   model: User
