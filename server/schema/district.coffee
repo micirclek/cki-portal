@@ -28,6 +28,7 @@ DistrictSchema.methods.loadForms = ->
   query = Db.Form.find()
   .where
     'for.modelType': 'District'
+    published: true
     active: true
   .select('name')
 

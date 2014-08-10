@@ -32,6 +32,8 @@ class Form extends Handler
             # later
             _.any positions, (position) ->
               position.level in ['international', 'district']
+          else if !model.active
+            false # no one has permission to edit these
           else if model.for.modelType == 'Club'
             _.any positions, (position) ->
               position.level == 'district' && position.idDistrict.equals(model.idDistrict)
@@ -48,6 +50,31 @@ class Form extends Handler
         permissions: ['read']
         fx: (req) ->
           req.model
+
+    put:
+      '/published':
+        permissions: ['write']
+        arguments:
+          value: { validator: validators.bool() }
+        fx: (req) ->
+          if !req.args.value || req.model.published
+            throw Error.ApiError('Cannot unpublish a form')
+
+          req.model.published = true
+          Promise.ninvoke(req.model, 'save').then =>
+            return req.model
+
+      '/active':
+        permisisons: ['write']
+        arguments:
+          value: { validator: validators.bool() }
+        fx: (req) ->
+          if req.args.value || !req.model.active
+            throw Error.ApiError('Cannot reactivate a form')
+
+          req.model.active = false
+          Promise.ninvoke(req.model, 'save').then =>
+            return req.model
 
     post:
       '':

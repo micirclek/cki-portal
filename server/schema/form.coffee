@@ -24,7 +24,17 @@ FormSchema = new Schema 'Form',
     idDistrict: { type: Schema.ObjectId }
   }
 
-  active: { type: Boolean, default: false }
+  # the lifespan of a form (descriptions are { published, active }):
+  # { false, true }: the form was just created.  You can edit it however you
+  #                  want and no one can fill it out
+  # { true, true }:  you are done creating the form, it can now be filled out
+  #                  by whoever it is intended for.  Updates at this point are
+  #                  restricted to copy changes
+  # { *, false }:    the form has reached the end of its life.  It can no
+  #                  longer be edited at all and no new reports may be started
+  #                  based off of this form
+  published: { type: Boolean, default: false }
+  active: { type: Boolean, default: true }
 
   sections: [SectionSchema]
 

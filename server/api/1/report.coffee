@@ -188,6 +188,9 @@ class Report extends Handler
             if !form || !entity
               throw Error.ApiError('Invalid entity loaded', 400)
 
+            if !form.active || !form.published
+              throw Error.ApiError('Form is not currently active')
+
             # form is for entity
             if form.for.modelType != req.args.for.modelType
               throw Error.ApiError('Form is not for this entity')

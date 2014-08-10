@@ -30,6 +30,7 @@ ClubSchema.methods.loadForms = ->
       { 'for.idDistrict': @idDistrict }
       { 'for.idDistrict': null }
     ]
+    published: true
     active: true
   .select('name')
 
