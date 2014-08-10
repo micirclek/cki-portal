@@ -1,6 +1,16 @@
 <h1>My Account</h1>
 
-<button class="btn btn-lg btn-success js-set-password">
+{{#if name}}
+  <h2>{{name}}</h2>
+{{else}}
+  <p>Set your name by editing your profile!</p>
+{{/if}}
+{{! Chrome puts the buttons too close together without the margin-right }}
+<button type="button" class="btn btn-success js-edit-profile" style="margin-right: 4px;">
+  Edit Profile
+  <span class="glyphicon glyphicon-edit"></span>
+</button>
+<button type="button" class="btn btn-success js-set-password">
   {{#if password}}
     Change Password
   {{else}}
