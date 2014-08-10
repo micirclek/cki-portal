@@ -1,4 +1,9 @@
-{{email}}
+{{#if name}}
+  {{name}} <small>{{email}}</small>
+{{else}}
+  {{email}}
+{{/if}}
+
 {{#unless confirmed}}
   <span class="badge">Pending Confirmation</span>
 {{/unless}}

@@ -4,6 +4,7 @@ class Officer extends AppModel
   typeName: 'Officer'
 
   defaults:
+    name: ''
     email: ''
     confirmed: false
 

@@ -29,6 +29,7 @@ class AddOfficerView extends PopoverView
     return @
 
   submit: ->
+    name = @$('#new-officer-name').val()
     email = @$('#new-officer-email').val()
     year = parseInt(@$('#new-officer-year').val(), 10)
 
@@ -39,6 +40,7 @@ class AddOfficerView extends PopoverView
       return false
 
     @model.create {
+      name: name
       email: email
       start: new Date(year, 3, 1)
       end: new Date(year + 1, 3, 1)
