@@ -36,7 +36,7 @@ class Form extends Handler
             false # no one has permission to edit these
           else if model.for.modelType == 'Club'
             _.any positions, (position) ->
-              position.level == 'district' && position.idDistrict.equals(model.idDistrict)
+              position.level == 'district' && position.idDistrict.equals(model.for.idDistrict)
           else if model.for.modelType == 'District'
             _.any positions, (position) -> position.level == 'international'
         else
@@ -93,12 +93,13 @@ class Form extends Handler
               if !req.me.hasAccess(typeName: 'District', 'manage')
                 throw Error.ApiError('User does not have permission to create this form', 403)
             else if req.args.for.modelType == 'Club'
-              Promise.resolve(Db.District.findById(req.for.idDistrict)).then (district) =>
+              Promise.resolve(Db.District.findById(req.args.for.idDistrict).exec())
+              .then (district) =>
                 if !district
                   throw Error.ApiError('District does not exist')
 
-              if !req.me.hasAccess(typeName: 'Club', idDistrict: district._id, 'manage')
-                throw Error.ApiError('User does not have permission to create this form', 403)
+                if !req.me.hasAccess(typeName: 'Club', idDistrict: district._id, 'manage')
+                  throw Error.ApiError('User does not have permission to create this form', 403)
           .then =>
             sectionNames = _.pluck(req.args.sections, 'name')
             questionNames = _.pluck(req.args.questions, 'name')
