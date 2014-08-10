@@ -29,7 +29,7 @@ class Controller extends Backbone.Router
     'club/:id/home': 'clubHome'
     'district/:id': 'districtHome'
     'district/:id/home': 'districtHome'
-    ':level/:id/form/new': 'newForm'
+    ':level/:id/form/new(/:idTemplate)': 'newForm'
     ':level/:id/report/new/:idForm': 'newReport'
     'reports/:id': 'openReport'
     'forms/:id': 'openForm'
@@ -183,14 +183,27 @@ class Controller extends Backbone.Router
       if !loggedIn
         return
 
-      # TODO broaden this
-      form = new Form
-        for:
-          modelType: 'Club'
-          idDistrict: idLevel
+      Promise.try =>
+        if !idTemplate
+          return new Form()
 
-      @switchView(new FormView(model: form))
-    .done()
+        form = new Form(_id: idTemplate)
+        form.fetch().then =>
+          form.unset('_id')
+          form.set
+            active: true
+            published: false
+          return form
+      .then (form) =>
+        # TODO broaden this
+        form.set
+          for:
+            modelType: 'Club'
+            idDistrict: idLevel
+
+        @switchView(new FormView(model: form))
+      .catch(Error.AjaxError, Util.noop)
+      .done()
 
   openForm: (idForm) ->
     @wait(true).then (loggedIn) =>
