@@ -3,6 +3,9 @@ Controller = require('controller')
 
 # set up analytics
 require('lib/backbone.analytics')
+# useful errors
+require('lib/error')
+
 config = require('config')
 
 $ ->
@@ -20,15 +23,16 @@ $ ->
 
     Promise.resolve(ajax(options))
     .catch (e) ->
+      err = Error.AjaxError(e)
       if handleError
-        if e.status == 401
+        if err.status == 401
           Session.me?.clear()
           Util.showAlert('Invalid access: please log in', 'alert-warning', 20000)
           controller.navigate('', trigger: true)
         else
-          Util.showAlert(e.status + ': ' + e.responseText)
+          Util.showAlert(err.message)
 
-      throw e
+      throw err
 
   window.Util = require('util')
   window.Session = new Session
