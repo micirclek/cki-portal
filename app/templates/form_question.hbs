@@ -1,0 +1,27 @@
+<div class="question panel panel-default">
+  <div class="panel-body">
+
+    <div class="form-group">
+      <label class="control-label" for="{{uid}}-name">Question Name</label>
+      <input type="text" id="{{uid}}-name" class="form-control js-question-name" value="{{name}}" {{disabled}} />
+    </div>
+
+    <div class="form-group">
+      <label class="control-label" for="{{name}}-prompt">Prompt</label>
+      <textarea id="{{uid}}-prompt" class="form-control js-question-prompt">{{prompt}}</textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label" for="{{uid}}-type">Type</label>
+      <select id="{{uid}}-type" class="form-control js-question-type" {{disabled}}>
+        <option value=""></option>
+        {{#each types}}
+          <option value="{{value}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="js-options"></div>
+
+  </div>
+</div>

@@ -1,13 +1,23 @@
-<h2>
-  Manage
-</h2>
+<h2>Manage</h2>
 
-<div class="panel panel-default">
-  <div class="panel-heading js-toggle-panel">
-    <h4 class="panel-title">
-      <a href="#">Officer List</a>
-    </h4>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading js-toggle-panel">
+      <h4 class="panel-title">
+        <a href="#">Officer List</a>
+      </h4>
+    </div>
+    <div class="panel-body panel-collapse collapse js-officers"></div>
   </div>
-  <div class="panel-body panel-collapse collapse js-officers">
-  </div>
+
+  {{#if showForms}}
+    <div class="panel panel-default">
+      <div class="panel-heading js-toggle-panel">
+        <h4 class="panel-title">
+          <a href="#">Forms</a>
+        </h4>
+      </div>
+      <div class="panel-body panel-collapse collapse js-forms"></div>
+    </div>
+  {{/if}}
 </div>

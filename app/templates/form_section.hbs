@@ -1,0 +1,24 @@
+<div class="section panel panel-default">
+  <div class="panel-body">
+
+    <div class="form-group">
+      <label class="control-label" for="{{uid}}-name">Section Name</label>
+      <input type="text" id="{{uid}}-name" class="form-control js-section-name" value="{{name}}" {{disabled}} />
+    </div>
+
+    <div class="form-group">
+      <label class="control-label" for="{{uid}}-title">Section Title</label>
+      <input type="text" id="{{uid}}-title" class="form-control js-section-title" value="{{title}}" />
+    </div>
+
+    <div class="form-group">
+      <label class="control-label" for="{{uid}}-subtitle">Section Subtitle</label>
+      <input type="text" id="{{uid}}-subtitle" class="form-control js-section-subtitle" value="{{subtitle}}" />
+    </div>
+
+    <div class="js-questions"></div>
+
+    <button type="button" class="btn btn-default js-add-question" {{disabled}}>Add Question</button>
+
+  </div>
+</div>

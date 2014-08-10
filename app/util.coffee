@@ -39,6 +39,8 @@ Util =
 
     return years
 
+  questionTypes: ['text', 'integer', 'number', 'block', 'date', 'bool', 'select', 'table']
+
   togglePanel: ({ target }) ->
     $(target).closest('.panel').children('.panel-body').collapse('toggle')
     return false

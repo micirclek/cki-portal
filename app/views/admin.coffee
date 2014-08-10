@@ -99,13 +99,30 @@ class OfficerListView extends AppView
     @newOfficer.undelegateEvents()
     @$('.js-new-officer').popover('hide')
 
+class FormListView extends AppView
+  initialize: ({ @entity }) ->
+    super
+
+  render: ->
+    data = @entity.toJSON()
+    data.urlBase = @entity.typeName.toLowerCase()
+
+    @$el.html(@template('form_list', data))
+    return @
+
 class AdminView extends AppView
   events:
     'click .js-toggle-panel': (args...) -> Util.togglePanel(args...)
 
   render: ->
-    @$el.html(@template('admin'))
+    data =
+      showForms: @model.typeName != 'Club'
+
+    @$el.html(@template('admin', data))
     @$('.js-officers').html(new OfficerListView(model: @model.officers).render().el)
+
+    if @model.typeName != 'Club'
+      @$('.js-forms').html(new FormListView(entity: @model).render().el)
 
     return @
 

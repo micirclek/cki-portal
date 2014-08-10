@@ -6,7 +6,7 @@ class Question extends AppModel
   defaults: ->
     _id: null
     name: ''
-    type: ''
+    type: 'text'
     prompt: ''
     properties: {}
 
@@ -66,6 +66,29 @@ class Form extends AppModel
     @questions = new QuestionCollection()
     @sections = new SectionCollection()
     super
+
+  editable: ->
+    filler = @get('for')
+    if filler.idDistrict
+      return Session.me.positions.getCurrent().chain()
+      .find (position) =>
+        position.get('level') == 'district' && position.get('idDistrict') == filler.idDistrict
+      .value()?
+    else
+      return Session.me.positions.getCurrent().chain()
+      .find (position) =>
+        position.get('level') == 'international'
+
+  publish: ->
+    @save().then =>
+      Backbone.ajax
+        type: 'PUT'
+        url: @url() + '/published'
+        data:
+          value: true
+      .tap =>
+        Util.showAlert('Form successfully pulbished', 'alert-success')
+        @set(published: true)
 
 class FormCollection extends Backbone.Collection
   model: Form

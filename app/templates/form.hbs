@@ -1,0 +1,26 @@
+{{#if published}}
+  <div class="alert alert-info">
+    This form has been published.  You may make changes to the text, however,
+    larger changes may not be made at this time.  In order to make those
+    changes, please make a new form based off of this one and then disable this
+    form.
+  </div>
+{{/if}}
+
+<form>
+
+  <div class="form-group">
+    <label class="control-label" for="form-name">Form Name</label>
+    <input type="text" id="form-name" class="form-control js-form-name" value="{{name}}" />
+  </div>
+
+  <div class="js-sections"></div>
+  <button type="button" class="btn btn-default js-add-section" {{disabled}}>Add Section</button>
+
+  <hr>
+  {{#unless published}}
+    <button type="button" class="btn btn-primary js-publish-form">Publish</button>
+  {{/unless}}
+  <button type="button" class="btn btn-default js-save-form">Save</button>
+
+</form>

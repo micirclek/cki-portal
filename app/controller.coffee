@@ -4,6 +4,7 @@ Form = require('models/form')
 Report = require('models/report')
 
 AccountView = require('views/account')
+FormView = require('views/form')
 HeaderView = require('views/header')
 LandingView = require('views/landing')
 LoginView = require('views/login')
@@ -11,6 +12,7 @@ ReportView = require('views/report')
 StaticView = require('views/static')
 WelcomeView = require('views/welcome')
 
+#TODO error checking
 class Controller extends Backbone.Router
   initialize: ->
     @view = null
@@ -27,6 +29,7 @@ class Controller extends Backbone.Router
     'club/:id/home': 'clubHome'
     'district/:id': 'districtHome'
     'district/:id/home': 'districtHome'
+    ':level/:id/form/new': 'newForm'
     ':level/:id/report/new/:idForm': 'newReport'
     'reports/:id': 'openReport'
 
@@ -168,6 +171,23 @@ class Controller extends Backbone.Router
         form.fetch().then =>
           @switchView(new ReportView({ model: report, form }))
       .catch(Error.AjaxError, Util.noop)
+    .done()
+
+  newForm: (level, idLevel, idTemplate) ->
+    if level != 'district'
+      Util.showAlert('New forms can currently only be created at the district level')
+
+    @wait(true).then (loggedIn) =>
+      if !loggedIn
+        return
+
+      # TODO broaden this
+      form = new Form
+        for:
+          modelType: 'Club'
+          idDistrict: idLevel
+
+      @switchView(new FormView(model: form))
     .done()
 
 module.exports = Controller
