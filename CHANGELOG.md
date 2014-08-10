@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v0.2.1
+------
+* Fix the validators for user name changes
+* Fix the title of the name change popover
+
 v0.2.0
 ------
 * Fix validating reports on final submission
