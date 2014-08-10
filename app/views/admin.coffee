@@ -99,6 +99,14 @@ class OfficerListView extends AppView
     @newOfficer.undelegateEvents()
     @$('.js-new-officer').popover('hide')
 
+class FormItemView extends AppView
+  tagName: 'li'
+  className: 'list-group-item'
+
+  render: ->
+    @$el.html(@template('form_item', @model.toJSON()))
+    return @
+
 class FormListView extends AppView
   initialize: ({ @entity }) ->
     super
@@ -108,6 +116,10 @@ class FormListView extends AppView
     data.urlBase = @entity.typeName.toLowerCase()
 
     @$el.html(@template('form_list', data))
+
+    @model.each (form) =>
+      @$('.js-form-list').append(new FormItemView(model: form).render().el)
+
     return @
 
 class AdminView extends AppView
@@ -122,7 +134,7 @@ class AdminView extends AppView
     @$('.js-officers').html(new OfficerListView(model: @model.officers).render().el)
 
     if @model.typeName != 'Club'
-      @$('.js-forms').html(new FormListView(entity: @model).render().el)
+      @$('.js-forms').html(new FormListView(model: @model.childForms, entity: @model).render().el)
 
     return @
 

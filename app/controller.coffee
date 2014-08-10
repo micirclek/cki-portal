@@ -32,6 +32,7 @@ class Controller extends Backbone.Router
     ':level/:id/form/new': 'newForm'
     ':level/:id/report/new/:idForm': 'newReport'
     'reports/:id': 'openReport'
+    'forms/:id': 'openForm'
 
   switchView: (view) ->
     @view = view
@@ -126,6 +127,7 @@ class Controller extends Backbone.Router
       data =
         reports: true
         forms: true
+        childForms: true
         clubs: true
         club_reports: true
         stats: true
@@ -189,5 +191,14 @@ class Controller extends Backbone.Router
 
       @switchView(new FormView(model: form))
     .done()
+
+  openForm: (idForm) ->
+    @wait(true).then (loggedIn) =>
+      if !loggedIn
+        return
+
+      form = new Form(_id: idForm)
+      form.fetch().then =>
+        @switchView(new FormView(model: form))
 
 module.exports = Controller
