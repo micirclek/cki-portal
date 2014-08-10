@@ -54,9 +54,10 @@
   <select id="report-question-{{name}}" class="form-control"
   {{#if properties.required}}required{{/if}}
   >
-  {{#each options}}
-    <option value="{{value}}" {{#if selected}}selected{{/if}}>{{name}}</option>
-  {{/each}}
+    <option value=""></option>
+    {{#each options}}
+      <option value="{{value}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+    {{/each}}
   </select>
 {{/if}}
 </div>
