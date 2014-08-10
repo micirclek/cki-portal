@@ -52,6 +52,36 @@ class Form extends Handler
           req.model
 
     put:
+      '':
+        permissions: ['write']
+        arguments:
+          name: { validator: validators.string(), optional: true }
+          questions: { validator: validators.array(validators.formQuestion()) }
+          sections: { validator: validators.array(validators.formSection()) }
+        fx: (req) ->
+          Promise.try =>
+            if req.args.name?
+              req.model.name = req.args.name
+
+            if req.model.published
+              # we can update any section title/subtitle or any question prompt
+              for question in req.args.questions
+                existing = _.findWhere(req.model.questions, { name: question.name })
+                existing?.prompt = question.prompt
+              for section in req.args.sections
+                existing = _.findWhere(req.model.sections, { name: section.name })
+                existing?.title = section.title
+                existing?.subtitle = section.subtitle
+              return
+
+            # we can update anything we feel like
+            req.model.questions = req.args.questions
+            req.model.sections = req.args.sections
+          .then =>
+            Promise.ninvoke(req.model, 'save')
+          .then =>
+            return req.model
+
       '/published':
         permissions: ['write']
         arguments:
