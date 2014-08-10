@@ -90,7 +90,7 @@ class AccountView extends AppView
 
     @$('.js-edit-profile').popover
       html: true
-      title: title
+      title: 'Edit Profile'
       content: @editProfile.render().el
       trigger: 'manual'
     .popover('hide')
