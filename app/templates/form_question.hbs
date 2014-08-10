@@ -11,6 +11,16 @@
       <textarea id="{{uid}}-prompt" class="form-control js-question-prompt">{{prompt}}</textarea>
     </div>
 
+    {{#if requiredOption}}
+      <div class="form-group">
+        <div class="checkbox">
+          <label>
+            <input class="js-question-required" type="checkbox" {{disabled}} {{#if properties.required}}checked{{/if}} /> Required
+          </label>
+        </div>
+      </div>
+    {{/if}}
+
     <div class="form-group">
       <label class="control-label" for="{{uid}}-type">Type</label>
       <select id="{{uid}}-type" class="form-control js-question-type" {{disabled}}>

@@ -4,20 +4,21 @@ class QuestionView extends AppView
   events:
     'change .js-question-name': 'changeName'
     'change .js-question-prompt': 'changePrompt'
+    'change .js-question-required': 'changeRequired'
     'change .js-question-type': 'changeType'
 
   initialize: ({ @form }) ->
     super
 
   render: ->
-    data = @model.toJSON()
-    data.uid = @cid
-    data.disabled = if @form.get('published') then 'disabled' else ''
-
-    data.types = _.map Util.questionTypes, (type) =>
-      value: type
-      name: Util.ucFirst(type)
-      selected: type == @model.get('type')
+    data = _.extend @model.toJSON(),
+      uid: @cid
+      disabled: if @form.get('published') then 'disabled' else ''
+      requiredOption: @model.get('type') !in ['table']
+      types: _.map Util.questionTypes, (type) =>
+        value: type
+        name: Util.ucFirst(type)
+        selected: type == @model.get('type')
 
     @$el.html(@template('form_question', data))
 
@@ -37,6 +38,14 @@ class QuestionView extends AppView
 
   changePrompt: ({ target }) ->
     @model.set(prompt: @$(target).val())
+
+  changeRequired: ({ target }) ->
+    properties = @model.get('properties')
+    if target.checked
+      properties.required = true
+    else
+      delete properties.required
+    @model.set('properties', properties)
 
   changeType: ({ target }) ->
     @model.set(type: @$(target).val())
