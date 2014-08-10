@@ -38,7 +38,11 @@ $ ->
   window.Session = new Session
 
   if config.SENTRY_DSN
-    Raven.config(config.SENTRY_DSN).install()
+    Raven.config config.SENTRY_DSN,
+      includePaths: [
+        /app\.js/
+      ]
+    .install()
 
     Promise.onPossiblyUnhandledRejection (err, promise) =>
       Raven.captureException err,
