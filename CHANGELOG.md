@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v0.3.0
+------
+* Add the ability to create/edit forms within the app
+
 v0.2.2
 ------
 * Add client-side config for analytics and sentry
