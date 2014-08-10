@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v0.2.2
+------
+* Add client-side config for analytics and sentry
+* Clean up a lot of client-side error reporting
+
 v0.2.1
 ------
 * Fix the validators for user name changes
