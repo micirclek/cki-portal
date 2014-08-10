@@ -1,19 +1,9 @@
 AppView = require('views/appview')
+PopoverView = require('views/popover')
 
-class ChangePasswordView extends AppView
+class ChangePasswordView extends PopoverView
   events:
-    'click .js-submit': 'submit'
-
-  initialize: ({ @parent }) ->
-    super
-
-  delegateEvents: ->
-    super
-    $(window).bind('click.change-password', (e) => @anyClick(e))
-
-  undelegateEvents: ->
-    super
-    $(window).unbind('click.change-password')
+    'submit form': 'submit'
 
   render: ->
     data =
@@ -33,31 +23,20 @@ class ChangePasswordView extends AppView
     @model.setPassword(oldPass, newPass)
     .then =>
       Util.showAlert('Password changed', 'alert-success')
-      @parent.closeSetPassword()
+      @close()
     .catch =>
       return
     .done()
 
     return false
 
-  anyClick: (e) ->
-    if !$(e.target).closest('.popover').length
-      @parent.closeSetPassword()
+  close: ->
+    @parent.closeSetPassword()
 
-class EditProfileView extends AppView
+
+class EditProfileView extends PopoverView
   events:
     'submit form': 'submit'
-
-  initialize: ({ @parent }) ->
-    super
-
-  delegateEvents: ->
-    super
-    $(window).bind('click.change-password', (e) => @anyClick(e))
-
-  undelegateEvents: ->
-    super
-    $(window).unbind('click.change-password')
 
   render: ->
     @$el.html(@template('edit_profile', @model.toJSON()))
@@ -67,16 +46,15 @@ class EditProfileView extends AppView
     name = @$('#name').val() ? ''
     @model.save({ name })
     .then =>
-      @parent.closeEditProfile()
+      @close()
     .catch =>
       return
     .done()
 
     return false
 
-  anyClick: (e) ->
-    if !$(e.target).closest('.popover').length
-      @parent.closeEditProfile()
+  close: ->
+    @parent.closeEditProfile()
 
 class AccountView extends AppView
   events:

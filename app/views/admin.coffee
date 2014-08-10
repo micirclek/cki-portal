@@ -1,4 +1,5 @@
 AppView = require('views/appview')
+PopoverView = require('views/popover')
 
 # to make removing people easier in the future
 class OfficerView extends AppView
@@ -12,20 +13,9 @@ class OfficerView extends AppView
     @$el.html(@template('officer', @model.toJSON()))
     return @
 
-class AddOfficerView extends AppView
+class AddOfficerView extends PopoverView
   events:
-    'click .js-submit': 'submit'
-
-  initialize: ({ @parent }) ->
-    super
-
-  delegateEvents: ->
-    super
-    $(window).bind('click.add-officer', (e) => @anyClick(e))
-
-  undelegateEvents: ->
-    super
-    $(window).unbind('click.add-officer')
+    'submit form': 'submit'
 
   render: ->
     serviceYearStart = parseInt(Util.getServiceYear()[0..3], 10)
@@ -55,14 +45,13 @@ class AddOfficerView extends AppView
     }, {
       wait: true
       success: =>
-        @parent.closePopover()
+        @close()
     }
 
     return false
 
-  anyClick: (e) ->
-    if !$(e.target).closest('.popover').length
-      @parent.closePopover()
+  close: ->
+    @parent.closePopover()
 
 class OfficerListView extends AppView
   events:
