@@ -37,6 +37,67 @@ class SelectOptionsView extends AppView
     properties.options = options
     @model.set({ properties })
 
+class TableFieldsView extends AppView
+  events:
+    'change': 'update'
+    'keydown .js-field:last .js-field-name': 'checkAddRow'
+
+  initialize: ({ @form }) ->
+    super
+
+  render: ->
+    @$el.html(@template('form_question_fields'))
+
+    properties = @model.get('properties')
+    for field in properties?.fields ? []
+      @addRow(field)
+
+    if !@form.get('published')
+      @addRow()
+
+    return @
+
+  addRow: (field = {}) ->
+    data = _.extend field,
+      disabled: if @form.get('published') then 'disabled' else ''
+      uid: @cid + '-' + _.uniqueId()
+      types: _.chain(Util.questionTypes)
+              .without('select', 'table')
+              .map (type) =>
+                value: type
+                name: Util.ucFirst(type)
+                selected: type == field?.type
+              .value()
+
+    @$('.js-fields').append(@template('form_question_field', data))
+
+  checkAddRow: ->
+    last = @$('.js-field:last')
+    if last.find('.js-field-name').val() && last.find('.js-field-type').val()
+      @addRow()
+
+  update: ->
+    fields = []
+    _.each @$('.js-field'), (field) =>
+      field = $(field)
+      name = field.find('.js-field-name').val()
+      prompt = field.find('.js-field-prompt').val()
+      type = field.find('.js-field-type').val()
+
+      if _.findWhere(fields, { name })?
+        Util.showAlert('Field ' + name + ' already exists in table', 'alert-warning')
+        field.find('.js-field-name').focus().select()
+        return
+
+      if name && type
+        fields.push({ name, prompt, type })
+
+    properties = @model.get('properties')
+    properties.fields = fields
+    @model.set({ properties })
+
+    @checkAddRow()
+
 class QuestionView extends AppView
   events:
     'change .js-question-name': 'changeName'
@@ -62,6 +123,8 @@ class QuestionView extends AppView
 
     if data.type == 'select'
       @$('.js-options').html(new SelectOptionsView({ @model, @form }).render().el)
+    else if data.type == 'table'
+      @$('.js-options').html(new TableFieldsView({ @model, @form }).render().el)
 
     return @
 

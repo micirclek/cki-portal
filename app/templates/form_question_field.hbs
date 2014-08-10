@@ -1,0 +1,21 @@
+<li class="list-group-item js-field form-inline">
+  <div class="form-group">
+    <label class="control-label" for="{{uid}}-name">Name</label>
+    <input type="text" id="{{uid}}-name" class="form-control js-field-name" value="{{name}}" {{disabled}} />
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="{{uid}}-prompt">Prompt</label>
+    <input type="text" id="{{uid}}-prompt" class="form-control js-field-prompt" value="{{prompt}}" />
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="{{uid}}-type">Type</label>
+    <select id="{{uid}}-type" class="form-control js-field-type" {{disabled}}>
+      <option value=""></option>
+      {{#each types}}
+        <option value="{{value}}" {{#if selected}}selected{{/if}}>{{name}}</option>
+      {{/each}}
+    </select>
+  </div>
+</li>
