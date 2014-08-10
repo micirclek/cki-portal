@@ -29,6 +29,7 @@
     "handlebars": "^2.0.0-alpha.4",
     "handlebars-brunch": "^1.7.8",
     "javascript-brunch": "^1.7.1",
+    "jsenv-brunch": "^1.4.2",
     "less-brunch": "^1.7.2",
     "moment": "^2.8.1",
     "mongoose": "~3.8.14",

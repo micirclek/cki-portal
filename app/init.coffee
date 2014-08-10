@@ -3,6 +3,7 @@ Controller = require('controller')
 
 # set up analytics
 require('lib/backbone.analytics')
+config = require('config')
 
 $ ->
   ajax = Backbone.ajax
@@ -32,12 +33,16 @@ $ ->
   window.Util = require('util')
   window.Session = new Session
 
-  Raven.config('https://5b2dc839571948f59ad3eb9470544017@app.getsentry.com/28379').install()
+  if config.SENTRY_DSN
+    Raven.config(config.SENTRY_DSN).install()
 
-  Promise.onPossiblyUnhandledRejection (err, promise) =>
-    Raven.captureException err,
-      extras:
-        fromUnhandledPromise: true
+    Promise.onPossiblyUnhandledRejection (err, promise) =>
+      Raven.captureException err,
+        extras:
+          fromUnhandledPromise: true
+
+  if config.GA_ID
+    ga('create', config.GA_ID, 'auto')
 
   Promise.longStackTraces()
 
