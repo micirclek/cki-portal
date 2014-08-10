@@ -31,7 +31,7 @@ ClubSchema.methods.loadForms = ->
       { 'for.idDistrict': null }
     ]
     active: true
-  .select('')
+  .select('name')
 
   Promise.resolve(query.exec())
 

@@ -54,6 +54,7 @@ class Form extends Handler
         permissions: ['write']
         noId: true
         arguments:
+          name: { validator: validators.string(), optional: true }
           for: { validator: validators.formFor() }
           questions: { validator: validators.array(validators.formQuestion()) }
           sections: { validator: validators.array(validators.formSection()) }
@@ -87,6 +88,9 @@ class Form extends Handler
               for: req.args.for
               questions: req.args.questions
               sections: req.args.sections
+
+            if req.args.name?
+              form.name = req.args.name
 
             Promise.resolve(Db.Form.create(form))
 

@@ -29,7 +29,7 @@ DistrictSchema.methods.loadForms = ->
   .where
     'for.modelType': 'District'
     active: true
-  .select('')
+  .select('name')
 
   Promise.resolve(query.exec())
 

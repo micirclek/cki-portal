@@ -13,7 +13,11 @@ SectionSchema = new Schema 'Section',
   subtitle: { type: String }
 
 FormSchema = new Schema 'Form',
-  # for a club: { 'Club', idDistrict }
+  name: { type: String, default: 'Report' }
+  properties: { type: Object }
+
+  # for clubs in a district: { 'Club', idDistrict }
+  # for all clubs: { 'Club', idDistrict }
   # for all districts: { 'District', null }
   for: {
     modelType: { type: String, emun: ['Club', 'District'] }
