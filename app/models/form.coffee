@@ -38,10 +38,15 @@ class Form extends AppModel
   defaults: ->
     _id: null
 
+    name: 'Report'
+
     for: {
       modelType: ''
       idDistrict: null
     }
+
+    active: true
+    published: false
 
   parse: (data) ->
     @questions.set(data.questions, parse: true)

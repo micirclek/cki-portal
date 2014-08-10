@@ -22,8 +22,7 @@
   {{/each}}
 {{else}}
   {{#each forms}}
-  {{! TODO: way to name the forms?  At the very least, should show better text than this for multiple forms }}
-    <a href="#{{../urlBase}}/{{../idEntity}}/report/new/{{_id}}" class="btn btn-default">Start New Report</a>
+    <a href="#{{../urlBase}}/{{../idEntity}}/report/new/{{_id}}" class="btn btn-default">Start New {{name}}</a>
   {{/each}}
 {{/if}}
 </div>
