@@ -46,4 +46,6 @@ Util =
   ucFirst: (str) ->
     str[0].toUpperCase() + str[1..]
 
+  noop: ->
+
 module.exports = Util

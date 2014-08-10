@@ -108,6 +108,8 @@ class Controller extends Backbone.Router
 
       club.fetch({ data }).then =>
         @switchView(new LandingView(model: club))
+      .catch(Error.AjaxError, Util.noop)
+    .done()
 
   districtHome: (idDistrict) ->
     @wait(true).then (loggedIn) =>
@@ -129,6 +131,8 @@ class Controller extends Backbone.Router
 
       district.fetch({ data }).then =>
         @switchView(new LandingView(model: district))
+      .catch(Error.AjaxError, Util.noop)
+    .done()
 
   newReport: (level, idEntity, idForm) ->
     @wait(true).then (loggedIn) =>
@@ -150,6 +154,8 @@ class Controller extends Backbone.Router
         report.set(idForm: form.id)
 
         @switchView(new ReportView({ model: report, form }))
+      .catch(Error.AjaxError, Util.noop)
+    .done()
 
   openReport: (idReport) ->
     @wait(true).then (loggedIn) =>
@@ -161,5 +167,7 @@ class Controller extends Backbone.Router
         form = new Form(_id: report.get('idForm'))
         form.fetch().then =>
           @switchView(new ReportView({ model: report, form }))
+      .catch(Error.AjaxError, Util.noop)
+    .done()
 
 module.exports = Controller
