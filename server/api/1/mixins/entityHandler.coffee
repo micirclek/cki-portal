@@ -44,14 +44,21 @@ class EntityHandler
     .then ({ active, invited }) =>
       officers = []
       for member in active
-        officers.push({ email: member.email, confirmed: true })
+        officers.push
+          name: member.name
+          email: member.email
+          confirmed: true
       for invitation in invited
-        officers.push({ email: invitation.email, confirmed: false })
+        officers.push
+          name: invitation.name
+          email: invitation.email
+          confirmed: false
       return officers
 
   addOfficer: (req) ->
     data =
-      name: req.model.name
+      entityName: req.model.name
+      name: req.args.name
       type: req.model.typeName
       start: req.args.start
       end: req.args.end
@@ -73,6 +80,7 @@ class EntityHandler
           idDistrict: data.idDistrict
           idClub: data.idClub
         return Promise.ninvoke(user, 'save').then =>
+          data.name = user.name
           return true
 
       lookup = Db.Invitation.findOne
@@ -85,6 +93,7 @@ class EntityHandler
         if !invitation
           isNew = true
           invitation = new Db.Invitation
+            name: data.name
             email: data.email
             start: data.start
             end: data.end
@@ -100,13 +109,13 @@ class EntityHandler
           if isNew
             data.url = config.get('server.fullDomain')
             Emailer.send
-              subject: 'You have been added as an officer of the ' + data.name + ' ' + data.type
+              subject: 'You have been added as an officer of the ' + data.entityName + ' ' + data.type
               to: data.email
               data: data
               template: 'invitation'
 
           return false
     .then (confirmed) =>
-      return { email: data.email, confirmed: confirmed }
+      return { name: data.name, email: data.email, confirmed: confirmed }
 
 module.exports = EntityHandler

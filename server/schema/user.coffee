@@ -47,6 +47,9 @@ UserSchema.methods.confirmEmail = (email) ->
 
     Db.Invitation.find({ email }).exec()
   .each (invitation) =>
+    if invitation.name && !@name
+      @name = invitation.name
+
     @positions.push
       start: invitation.start
       end: invitation.end

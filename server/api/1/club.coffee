@@ -48,6 +48,7 @@ class Club extends Handler
       '/officers':
         permissions: ['write|manage']
         arguments:
+          name: { validator: validators.string(), optional: true }
           email: { validator: validators.email() }
           start: { validator: validators.date() }
           end: { validator: validators.date() }
