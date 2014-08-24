@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v0.3.1
+------
+* Fix an issue with the entity name in invitation emails
+
 v0.3.0
 ------
 * Add the ability to create/edit forms within the app

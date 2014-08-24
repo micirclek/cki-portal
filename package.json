@@ -1,7 +1,7 @@
 {
   "name": "ckiportal",
   "description": "A simple reporting system for Circle K clubs",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "repository": {
     "type": "git",
