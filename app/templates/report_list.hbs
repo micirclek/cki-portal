@@ -21,8 +21,10 @@
     <a href="#reports/{{_id}}" class="btn btn-info">Edit {{date dateFor "MMMM YYYY"}} Report</a>
   {{/each}}
 {{else}}
-  {{#each forms}}
-    <a href="#{{../urlBase}}/{{../idEntity}}/report/new/{{_id}}" class="btn btn-default">Start New {{name}}</a>
-  {{/each}}
+  {{#if canCreate}}
+    {{#each forms}}
+      <a href="#{{../urlBase}}/{{../idEntity}}/report/new/{{_id}}" class="btn btn-default">Start New {{name}}</a>
+    {{/each}}
+  {{/if}}
 {{/if}}
 </div>

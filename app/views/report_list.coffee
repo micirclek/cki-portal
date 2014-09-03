@@ -24,6 +24,7 @@ class ReportListView extends AppView
       idEntity: @entity.id
       urlBase: @entity.typeName.toLowerCase()
       entityName: @entity.get('name')
+      canCreate: Session.me.hasAccess(@entity, 'edit')
     }
 
     @$el.html(@template('report_list', data))
