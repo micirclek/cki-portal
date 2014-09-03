@@ -5,7 +5,14 @@ QuestionSchema = new Schema 'Question',
   type: { type: String, required: true, enum: Util.questionTypes }
   prompt: { type: String }
   section: { type: String, required: true }
-  properties: { type: Object }
+  properties:
+    required: { type: Boolean, default: false }
+    fields: [
+      type: { type: String, enum: Util.questionTypes }
+      prompt: { type: String }
+      name: { type: String }
+    ]
+    options: [String]
 
 SectionSchema = new Schema 'Section',
   name: { type: String, required: true }
