@@ -48,6 +48,27 @@ class Report extends Handler
 
       return { question: question.name, value }
 
+  calculateStats: (report, form) ->
+    if !form.properties.autoStats
+      return
+
+    serviceHours = 0
+    kfamEvents = 0
+    interclubs = 0
+
+    { table, serviceField, kfamField, interclubField } = form.properties
+    table = _.findWhere(report.answers, { question: table })?.value ? []
+    for row in table
+      serviceHours += parseInt(row[serviceField] ? 0, 10)
+      if row[kfamField]
+        kfamEvents++
+      if row[interclubField]
+        interclubs++
+
+    report.serviceHours = serviceHours
+    report.kfamEvents = kfamEvents
+    report.interclubs = interclubs
+
   loadAuxModels: (model) ->
     if !model
       return Promise.resolve({})
@@ -110,6 +131,8 @@ class Report extends Handler
           for simple in ['dateFor', 'serviceHours', 'interclubs', 'kfamEvents']
             if req.args[simple]?
               req.model[simple] = req.args[simple]
+
+          @calculateStats(req.model, form)
 
           Promise.ninvoke(req.model, 'save').spread (model) ->
             model
@@ -205,7 +228,7 @@ class Report extends Handler
 
             answers = validateAnswers(req.args.answers, form.questions)
 
-            report =
+            report = new Db.Report
               idForm: req.args.idForm
               for: req.args.for
               dateFor: req.args.dateFor
@@ -214,6 +237,9 @@ class Report extends Handler
               kfamEvents: req.args.kfamEvents
               answers: answers
 
-            Promise.resolve(Db.Report.create(report))
+            @calculateStats(report, form)
+
+            Promise.ninvoke(report, 'save').then =>
+              return report
 
 module.exports = Report

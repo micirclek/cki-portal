@@ -21,7 +21,12 @@ SectionSchema = new Schema 'Section',
 
 FormSchema = new Schema 'Form',
   name: { type: String, default: 'Report' }
-  properties: { type: Object }
+  properties:
+    autoStats: { type: Boolean, default: false }
+    table: String
+    serviceField: String
+    kfamField: String
+    interclubField: String
 
   # for clubs in a district: { 'Club', idDistrict }
   # for all clubs: { 'Club', idDistrict }
