@@ -80,7 +80,9 @@ class Report extends AppModel
     answer = @answers.findByQuestion(question)
 
     if answer?
-      answer.set({ value })
+      old = answer.get('value')
+      answer.set({ value }, { silent: true })
+      answer.trigger('change:value', answer, old, {})
     else
       @answers.add({ question, value })
 
