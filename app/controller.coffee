@@ -112,7 +112,7 @@ class Controller extends Backbone.Router
 
       club.fetch({ data }).then =>
         @switchView(new LandingView(model: club))
-      .catch(Error.AjaxError, Util.noop)
+      .catch(Error.AjaxError, _.noop)
     .done()
 
   districtHome: (idDistrict) ->
@@ -136,7 +136,7 @@ class Controller extends Backbone.Router
 
       district.fetch({ data }).then =>
         @switchView(new LandingView(model: district))
-      .catch(Error.AjaxError, Util.noop)
+      .catch(Error.AjaxError, _.noop)
     .done()
 
   newReport: (level, idEntity, idForm) ->
@@ -159,7 +159,7 @@ class Controller extends Backbone.Router
         report.set(idForm: form.id)
 
         @switchView(new ReportView({ model: report, form }))
-      .catch(Error.AjaxError, Util.noop)
+      .catch(Error.AjaxError, _.noop)
     .done()
 
   openReport: (idReport) ->
@@ -172,7 +172,7 @@ class Controller extends Backbone.Router
         form = new Form(_id: report.get('idForm'))
         form.fetch().then =>
           @switchView(new ReportView({ model: report, form }))
-      .catch(Error.AjaxError, Util.noop)
+      .catch(Error.AjaxError, _.noop)
     .done()
 
   newForm: (level, idLevel, idTemplate) ->
@@ -202,7 +202,7 @@ class Controller extends Backbone.Router
             idDistrict: idLevel
 
         @switchView(new FormView(model: form))
-      .catch(Error.AjaxError, Util.noop)
+      .catch(Error.AjaxError, _.noop)
       .done()
 
   openForm: (idForm) ->

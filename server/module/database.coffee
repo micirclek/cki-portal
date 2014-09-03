@@ -1,11 +1,11 @@
 mongoose = require('mongoose')
 
 module.exports = class Db
-  @initialize: ({ host, name, port }) ->
+  @initialize: ({ uri }) ->
     for schema in require(App.path('server/schema')).schemas
       @[schema.typeName] = mongoose.model(schema.typeName, schema)
 
-    @mongoose = mongoose.connect host, name, port,
+    @mongoose = mongoose.connect uri,
       server:
         auto_reconnect: true
 

@@ -22,9 +22,7 @@ RavenLogger = App.lib('ravenLogger')
 
 # require and initialize modules
 Db = App.module('database').initialize
-  host: config.get('db.host')
-  name: config.get('db.name')
-  port: config.get('db.port')
+  uri: config.get('db.uri')
 Emailer = App.module('emailer').initialize
   host: config.get('email.host')
   secure: config.get('email.secure')
@@ -64,8 +62,11 @@ loggerStream =
   write: (message) ->
     Logger.info(message.trim())
 
+# this is exactly the dev format, minus the colours
+loggerFormat = ':method :url :status :response-time ms - :res[content-length]'
+
 app.set('port', Number(process.env.PORT || config.get('server.port')))
-app.use(morgan('dev', stream: loggerStream))
+app.use(morgan(loggerFormat, stream: loggerStream))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded(extended: true))
 app.use(cookieParser(config.get('secret')))

@@ -4,9 +4,7 @@ module.exports =
     host: 'localhost'
     fullDomain: 'http://localhost:5080'
   db:
-    name: 'portal'
-    host: 'localhost'
-    port: 27017
+    uri: 'mongodb://localhost/portal'
   auth:
     googleClientId: ''
     googleClientSecret: ''
