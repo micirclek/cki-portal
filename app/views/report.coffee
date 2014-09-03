@@ -177,6 +177,44 @@ class SectionView extends AppView
 
     return @
 
+class BasicStatsView extends AppView
+  initialize: ({ @form }) ->
+    @updateStatsListening()
+    super
+
+  updateStatsListening: ->
+    if !@form.get('properties')?.autoStats
+      return
+
+    @stopListening @model.answers, 'add reset', @updateStatsListening
+    answer = @model.answers.findByQuestion(@form.get('properties').table)
+    if answer?
+      @render()
+      @listenTo answer, 'change:value', @render
+    else
+      @listenTo @model.answers, 'add reset', @updateStatsListening
+
+  render: ->
+    properties = @form.get('properties')
+    if properties?.autoStats
+      answer = @model.answers.findByQuestion(properties.table)
+      data =
+        autoStats: true
+        serviceHours: 0
+        kfamEvents: 0
+        interclubs: 0
+      for row in answer?.get('value') ? []
+        data.serviceHours += parseInt(row[properties.serviceField] ? 0, 10)
+        if row[properties.kfamField]
+          data.kfamEvents++
+        if row[properties.interclubField]
+          data.interclubs++
+    else
+      data = @model.toJSON()
+
+    @$el.html(@template('report_basic_stats', data))
+    return @
+
 class ReportView extends AppView
   events:
     'changeDate .js-report-month': 'setDate'
@@ -205,6 +243,8 @@ class ReportView extends AppView
         autoclose: true
         orientation: 'top auto'
         endDate: new Date()
+
+    @$('.js-basic-stats').html(new BasicStatsView({ @model, @form }).render().el)
 
     @$('.js-sections').empty()
     @form.sections.each (section) =>
