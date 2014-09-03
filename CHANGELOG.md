@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v0.3.3
+------
+* Autostats are now possible to use (no way to turn on in client)
+* Minor bug fixes
+
 v0.3.2
 ------
 * Fix an issue with text/block values always being invalid
