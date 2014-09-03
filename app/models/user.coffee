@@ -66,6 +66,32 @@ class User extends AppModel
 
     super
 
+  hasAccess: (model, access = 'read') ->
+    positions = @positions.getCurrent()
+    if model.typeName == 'Club'
+      if access == 'view'
+        return positions.any (position) =>
+          (position.get('level') == 'club' && position.id == model.id) ||
+          (position.get('level') == 'district' && position.get('idDistrict') == model.get('idDistrict')) ||
+          (position.get('level') == 'international')
+      else if access == 'edit'
+        return positions.any (position) =>
+          position.get('level') == 'club' && position.get('idClub') == model.id
+      else if access == 'manage'
+        return positions.any (position) =>
+          position.get('level') == 'district' && position.get('idDistrict') == model.get('idDistrict')
+    else if model.typeName == 'District'
+      if access == 'view'
+        return positions.any (position) =>
+          (position.get('level') == 'district' && position.get('idDistrict') == model.id) ||
+          (position.get('level') == 'international')
+      else if access == 'edit'
+        return positions.any (position) =>
+          position.get('level') == 'district' && position.get('idDistrict') == model.id
+      else if access == 'manage'
+        return positions.any (position) =>
+          position.get('level') == 'international'
+
   setPassword: (oldPass, newPass) ->
     Backbone.ajax
       type: 'POST'
