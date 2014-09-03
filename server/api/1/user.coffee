@@ -59,7 +59,7 @@ class User extends Handler
         permissions: ['read']
         fx: (req) ->
           extras = {}
-          response = _.omit(req.model.toJSON(), 'credentials', 'hash', 'salt')
+          response = Util.cleanUser(req.model.toJSON())
 
           if req.args.position_names
             idClubs = _.chain(req.model.positions).map (position) =>
@@ -98,7 +98,7 @@ class User extends Handler
         fx: (req) ->
           req.model.name = req.args.name
           Promise.ninvoke(req.model, 'save').then =>
-            response = _.omit(req.model.toJSON(), 'credentials', 'hash', 'salt')
+            response = Util.cleanUser(req.model.toJSON())
             response.loginTypes = @getLoginTypes(req.model)
             return response
 
@@ -109,7 +109,7 @@ class User extends Handler
         fx: (req) ->
           req.model.name = req.args.value
           Promise.ninvoke(req.model, 'save').then =>
-            response = _.omit(req.model.toJSON(), 'credentials', 'hash', 'salt')
+            response = Util.cleanUser(req.model.toJSON())
             response.loginTypes = @getLoginTypes(req.model)
             return response
 
@@ -133,7 +133,7 @@ class User extends Handler
           .then =>
             Promise.ninvoke(req.model, 'save')
           .then =>
-            response = _.omit(req.model.toJSON(), 'credentials', 'hash', 'salt')
+            response = Util.cleanUser(req.model.toJSON())
             response.loginTypes = @getLoginTypes(req.model)
             return response
 

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v0.3.4
+------
+* Fix a security issue where we were leaking session information
+
 v0.3.3
 ------
 * Autostats are now possible to use (no way to turn on in client)

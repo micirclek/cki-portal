@@ -41,4 +41,7 @@ Util =
 
     return { idUser, token }
 
+  cleanUser: (user) ->
+    _.omit(user, 'credentials', 'hash', 'salt', 'sessions')
+
 module.exports = Util

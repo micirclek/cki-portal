@@ -21,7 +21,7 @@ class Auth extends Handler
         noId: true
         anonymous: true
         fx: (req) ->
-          _.omit(req.me?.toJSON() ? {}, 'credentials', 'hash', 'salt')
+          Util.cleanUser(req.me?.toJSON() ? {})
 
       '/google':
         noId: true
@@ -68,7 +68,7 @@ class Auth extends Handler
           .tap =>
             @startSession(req)
           .then =>
-            _.omit(req.req.me.toJSON(), 'credentials', 'hash', 'salt')
+            Util.cleanUser(req.req.me.toJSON())
 
       '/login':
         noId: true
@@ -82,7 +82,7 @@ class Auth extends Handler
           .then =>
             @startSession(req)
           .then =>
-            _.omit(req.req.me.toJSON(), 'credentials', 'hash', 'salt')
+            Util.cleanUser(req.req.me.toJSON())
 
       '/logout':
         noId: true
