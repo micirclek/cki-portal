@@ -8,7 +8,10 @@ class Question extends AppModel
     name: ''
     type: 'text'
     prompt: ''
-    properties: {}
+    properties:
+      required: false
+      fields: []
+      options: []
 
 class Section extends AppModel
   typeName: 'Section'
@@ -44,6 +47,13 @@ class Form extends AppModel
       modelType: ''
       idDistrict: null
     }
+
+    properties:
+      autoStats: false
+      table: ''
+      serviceField: ''
+      kfamField: ''
+      interclubField: ''
 
     active: true
     published: false
