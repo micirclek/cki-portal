@@ -28,7 +28,7 @@ class Report extends Handler
         switch question.type
           when 'table'
             value
-          when ['text', 'block']
+          when 'text', 'block'
             if _.isString(value)
               value
           when 'integer'

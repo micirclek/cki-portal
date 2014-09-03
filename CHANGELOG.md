@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v0.3.2
+------
+* Fix an issue with text/block values always being invalid
+
 v0.3.1
 ------
 * Fix an issue with the entity name in invitation emails
