@@ -20,3 +20,9 @@ exports.config =
   overrides:
     production:
       sourceMaps: true
+  onCompile: (files) ->
+    # fix an issue with uglify writing the sourcemap twice
+    exec = require('child_process').exec
+    for file in files
+      command = "sed -i '/^\\/\\/# sourceMappingURL=public\\/js\\//d' #{file.path}"
+      exec(command)
