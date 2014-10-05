@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v0.3.5
+------
+* Try to get source maps working better
+
 v0.3.4
 ------
 * Fix a security issue where we were leaking session information
