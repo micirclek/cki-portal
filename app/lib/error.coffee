@@ -13,3 +13,10 @@ class Error.AjaxError extends Error
     @status = ajaxErr.status
 
     @message = @status + ': ' + @response
+
+doCrash = ->
+  Promise.delay(null, 500).then ->
+    crash.crash()
+  .done()
+
+window.crashTest = -> setTimeout(doCrash, 1)
