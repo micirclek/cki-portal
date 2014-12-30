@@ -12,6 +12,16 @@ class Club extends Handler
   path: 'clubs'
   collection: 'Club'
 
+  verifyPermissions: (request) ->
+    { permissions } = request.handler
+    { model } = request
+
+    # validation for noId methods will be handled in the methods themselves
+    if request.handler.noId && !model
+      return
+
+    super
+
   handlers:
     get:
       '':
@@ -45,6 +55,21 @@ class Club extends Handler
             return response
 
     post:
+      '':
+        permissions: ['write']
+        noId: true
+        arguments:
+          name: { validator: validators.string(1) }
+          kiwanisId: { validator: validators.string(3, 6) }
+          idDistrict: { validator: validators.id() }
+        fx: (req) ->
+          query = Db.District.findById(req.args.idDistrict)
+          Promise.resolve(query.exec()).then (district) =>
+            if !req.me.hasAccess(district, 'edit') || !req.me.hasAccess(district, 'manage')
+              throw Error.ApiError('User does not have permission to create a new club in this district')
+
+            Promise.resolve(Db.Club.create(req.args))
+
       '/officers':
         permissions: ['write|manage']
         arguments:
@@ -54,6 +79,5 @@ class Club extends Handler
           end: { validator: validators.date() }
         fx: (req) ->
           @addOfficer(req)
-
 
 module.exports = Club
