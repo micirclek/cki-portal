@@ -62,14 +62,11 @@ class OfficerListView extends AppView
   initialize: ->
     @visible = false
 
-    @listenTo @model, 'add remove reset', @help
+    @listenTo @model, 'add remove reset', @render
 
     @newOfficer = new AddOfficerView({ @model, parent: @ })
 
     super
-
-  help: ->
-    @render()
 
   render: ->
     @$el.html(@template('officer_list'))
