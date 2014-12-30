@@ -13,7 +13,7 @@ class OfficerCollection extends Backbone.Collection
   url: ->
     @entity.url() + '/officers'
 
-  initialize: ({ @entity }) ->
+  initialize: (models, { @entity }) ->
     super
 
   create: (model) ->

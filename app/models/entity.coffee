@@ -24,8 +24,7 @@ class Entity extends AppModel
 
   constructor: ->
     @forms = new Form.Collection
-    @officers = new Officer.Collection
-      entity: @
+    @officers = new Officer.Collection([], entity: @)
     @reports = new Report.Collection
     super
 
