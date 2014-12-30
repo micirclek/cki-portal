@@ -72,7 +72,6 @@ app.use(bodyParser.urlencoded(extended: true))
 app.use(cookieParser(config.get('secret')))
 app.use(favicon(App.path(config.get('paths.staticPath'), '/favicon.ico')))
 app.use(express.static(App.path(config.get('paths.staticPath'))))
-app.use('/js/app', express.static(App.path('app')))
 
 passport.use(Db.User.createStrategy())
 passport.serializeUser(Db.User.serializeUser())
