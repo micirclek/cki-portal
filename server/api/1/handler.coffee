@@ -45,7 +45,7 @@ class Request
 class Handler
   loadModel: (request) ->
     id = request.req.params.id
-    if @model? || request.handler.noId
+    if request.model? || request.handler.noId
       return Promise.resolve()
 
     if !(id? && Util.checkId(id))
