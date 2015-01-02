@@ -1,4 +1,4 @@
-<h2>Clubs in the {{parent.name}} {{typeFor}}</h2>
+<h2>{{typeOf}}s in the {{parent.name}} {{typeFor}}</h2>
 <div class="panel-group">
 {{#each entities}}
   <div class="panel panel-default">
@@ -50,3 +50,6 @@
   </div>
 {{/each}}
 </div>
+<button type="button" class="btn btn-small btn-success js-new-entity">
+  Add New {{typeOf}}
+</button>
