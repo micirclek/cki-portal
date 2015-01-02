@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v0.3.6
+------
+* Add the ability to add new clubs
+
 v0.3.5
 ------
 * Try to get source maps working better
