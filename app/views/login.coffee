@@ -22,7 +22,10 @@ class LoginView extends AppView
   register: ->
     email = @$('#email').val()
     password = @$('#password').val()
-    Session.register(email, password).done()
+    Session.register(email, password)
+    .catch (err) =>
+      Util.showAlert(err.response)
+    .done()
 
     return false
 

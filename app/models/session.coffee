@@ -33,6 +33,7 @@ class Session
       type: 'POST'
       url: '/1/auth/register'
       data: { email, password }
+      handleError: false
     .then (me) =>
       @me.set(me)
       @setUserId(me.id)
