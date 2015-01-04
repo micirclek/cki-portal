@@ -144,11 +144,12 @@ class Controller extends Backbone.Router
       if !loggedIn
         return
 
+      reportFor =
+        modelType: Util.ucFirst(level)
+      reportFor['id' + reportFor.modelType] = idEntity
+
       report = new Report
-        for: {
-          idModel: idEntity
-          modelType: Util.ucFirst(level)
-        }
+        for: reportFor
 
       if !report.editable()
         Util.showAlert('You do not have access to create a report for this ' + level)

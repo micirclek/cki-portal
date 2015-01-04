@@ -25,8 +25,9 @@ class Report extends AppModel
     idForm: null
 
     for: {
-      idModel: null
       modelType: ''
+      idClub: null
+      idDistrict: null
     }
 
     submitted: false
@@ -50,7 +51,8 @@ class Report extends AppModel
       return Session.me.positions.getCurrent().chain()
       .find (position) =>
         position.get('level') == entityFor.modelType.toLowerCase()
-        position.get('id' + entityFor.modelType) == entityFor.idModel
+        idString = 'id' + entityFor.modelType
+        position.get(idString) == entityFor[idString]
       .value()?
 
   parse: (data) ->
