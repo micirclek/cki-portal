@@ -52,4 +52,6 @@ FormSchema = new Schema 'Form',
 
   questions: [QuestionSchema]
 
+FormSchema.index('for.modelType': 1, 'for.idDistrict': 1, published: 1, active: 1)
+
 module.exports = FormSchema

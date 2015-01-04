@@ -8,6 +8,8 @@ ClubSchema = new Schema 'Club',
 
   name: String
 
+ClubSchema.index(idDistrict: 1)
+
 # returns the id, month, and submission status of all reports for this club
 ClubSchema.methods.loadReports = ->
   query = Db.Report.find()

@@ -66,7 +66,7 @@ class EntityHandler
 
     if req.model.idDistrict?
       data.idClub = req.model.id
-      data.idDistrict = req.model.idDistrict
+      data.idDistrict = req.model.idDistrict # TODO might actually want to drop this
     else
       data.idDistrict = req.model.id
 

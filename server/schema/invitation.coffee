@@ -14,4 +14,8 @@ InvitationSchema = new Schema 'Invitation',
   start: { type: Date }
   end: { type: Date }
 
+InvitationSchema.index('email': 1)
+InvitationSchema.index(idDistrict: 1, modelType: 1)
+InvitationSchema.index({ idClub: 1 }, { sparse: true })
+
 module.exports = InvitationSchema

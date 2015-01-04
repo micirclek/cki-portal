@@ -34,6 +34,7 @@ UserSchema = new Schema 'User',
 
 UserSchema.index('credentials.email': 1)
 UserSchema.index('sessions.token': 1)
+UserSchema.index('positions.level': 1, 'positions.idDistrict': 1, 'positions.idClub': 1, 'positions.end': 1)
 
 UserSchema.plugin passportLocalMongoose,
   usernameLowerCase: true

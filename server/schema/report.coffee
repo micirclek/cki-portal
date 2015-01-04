@@ -25,6 +25,8 @@ ReportSchema = new Schema 'Report',
 
   answers: [AnswerSchema]
 
+ReportSchema.index('for.idModel': 1)
+
 ReportSchema.methods.setAnswer = (answer) ->
   a = _.findWhere(@answers, { question: answer.question })
   if a?
