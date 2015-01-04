@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v0.4.0
+------
+* Minor bug fixes
+* Performance improvements
+* WARNING: This requires manual database modifications to be made
+
 v0.3.6
 ------
 * Add the ability to add new clubs
