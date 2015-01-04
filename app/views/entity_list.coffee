@@ -50,7 +50,7 @@ class EntityListView extends AppView
       years = Util.mapToYears(entity.reports.toArray())
       thisYear = _.findWhere(years, year: Util.getServiceYear())
       thisMonth = _.find thisYear?.months ? [], (report) ->
-        report.dateFor.getMonth() == (new Date().getMonth() - 1)
+        moment(report.dateFor).get('month') == moment().subtract(1, 'month').get('month')
 
       countTotal = thisYear?.months.length ? 0
       countSubmitted = _.where(thisYear?.months ? [], { submitted: true }).length
