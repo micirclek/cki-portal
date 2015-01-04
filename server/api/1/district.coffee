@@ -23,7 +23,6 @@ class District extends Handler
 
           clubs: { validator: validators.bool(), default: false }
           club_reports: { validator: validators.bool(), default: false }
-          club_forms: { validator: validators.bool(), default: false }
 
           stats: { validator: validators.bool(), default: false }
           stats_start: { validator: validators.date(), optional: true }
@@ -40,19 +39,22 @@ class District extends Handler
             extras.officers = @getOfficers(req.model)
 
           if req.args.clubs
-            extras.clubs = req.model.loadClubs()
-            .map (club) =>
+            club_reports =
               if req.args.club_reports
-                club_reports = club.loadReports()
-              if req.args.club_forms
-                club_forms = club.loadForms()
+                req.model.loadChildReports()
+              else
+                Promise.resolve([])
 
-              Promise.join club_reports, club_forms, (club_reports, club_forms) =>
+            extras.clubs = Promise.join req.model.loadClubs(), club_reports, (clubs, reports) =>
+              if reports?
+                reports = _.groupBy reports, (report) ->
+                  return report.for.idClub
+
+              _.map clubs, (club) =>
                 response = club.toJSON()
-                if club_reports
-                  response.reports = club_reports
-                if club_forms
-                  response.forms = club_forms
+                if reports?
+                  response.reports = _.map reports[club._id] ? [], (report) =>
+                    _.pick(report.toJSON(), 'dateFor', 'submitted', '_id')
                 return response
 
           if req.args.stats

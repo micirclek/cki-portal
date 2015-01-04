@@ -34,6 +34,16 @@ DistrictSchema.methods.loadForms = ->
 
   Promise.resolve(query.exec())
 
+DistrictSchema.methods.loadChildReports = ->
+  query = Db.Report.find()
+  .where
+    'for.modelType': 'Club'
+    'for.idDistrict': @_id
+  .select('dateFor submitted for')
+  .sort('for.idClub': 1, 'dateFor': 1)
+
+  Promise.resolve(query.exec())
+
 DistrictSchema.methods.loadChildForms = ->
   query = Db.Form.find()
   .where
