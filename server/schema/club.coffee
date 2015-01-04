@@ -15,7 +15,7 @@ ClubSchema.methods.loadReports = ->
   query = Db.Report.find()
   .where
     'for.modelType': 'Club'
-    'for.idModel': @_id
+    'for.idClub': @_id
   .select('dateFor submitted')
   .sort(dateFor: 1)
 

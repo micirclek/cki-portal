@@ -18,7 +18,7 @@ DistrictSchema.methods.loadReports = ->
   query = Db.Report.find()
   .where
     'for.modelType': 'District'
-    'for.idModel': @_id
+    'for.idDistrict': @_id
   .select('dateFor submitted')
   .sort(dateFor: 1)
 

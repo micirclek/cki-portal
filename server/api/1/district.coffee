@@ -56,11 +56,7 @@ class District extends Handler
                 return response
 
           if req.args.stats
-            extras.stats = req.model.loadClubs()
-            .map (club) =>
-              club._id
-            .then (idClubs) =>
-              Stats.reportsByMonth(req.args.stats_start, req.args.stats_end, idClubs)
+            extras.stats = Stats.reportsByMonth(req.args.stats_start, req.args.stats_end, req.model._id)
 
           Promise.props(extras).then (extras) =>
             response = req.model.toJSON()

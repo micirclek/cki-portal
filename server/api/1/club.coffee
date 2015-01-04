@@ -43,7 +43,7 @@ class Club extends Handler
           if req.args.officers
             extras.officers = @getOfficers(req.model)
           if req.args.stats
-            extras.stats = Stats.reportsByMonth(req.args.stats_start, req.args.stats_end, [req.model._id])
+            extras.stats = Stats.reportsByMonth(req.args.stats_start, req.args.stats_end, null, req.model._id)
 
           Promise.props(extras).then (extras) =>
             response = req.model.toJSON()

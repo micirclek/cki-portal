@@ -1,8 +1,9 @@
 Db = App.module('database')
 
 module.exports = {
-  reportsByMonth: (dateStart, dateEnd, idClubs) ->
-    match = { $match: {} }
+  reportsByMonth: (dateStart, dateEnd, idDistrict, idClub) ->
+    # district reports should not have stats, but let's be careful
+    match = { $match: { 'for.modelType': 'Club' } }
     if dateStart || dateEnd
       match.$match.dateFor = {}
       if dateStart
@@ -10,8 +11,10 @@ module.exports = {
       if dateEnd
         match.$match.dateFor.$lt = dateEnd
 
-    if idClubs
-      match.$match['for.idModel'] = { $in: idClubs }
+    if idDistrict?
+      match.$match['for.idDistrict'] = idDistrict
+    if idClub?
+      match.$match['for.idClub'] = idClub
 
     reports = Db.Report.aggregate [
       match,

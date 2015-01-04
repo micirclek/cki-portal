@@ -40,10 +40,17 @@ module.exports = validators =
       throw Error.ApiError('Invalid formFor')
 
   reportFor: ->
-    ({ modelType, idModel }) ->
-      if Util.checkId(idModel) && _.isString(modelType) &&
-          modelType in ['Club', 'District']
-        return { modelType, idModel }
+    # TODO remove idModel after client update
+    ({ modelType, idModel, idClub, idDistrict }) ->
+      if _.isString(modelType) && modelType in ['Club', 'District']
+        if modelType == 'Club' && Util.checkId(idClub)
+          return { modelType, idClub } # ignore idDistrict
+        else if modelType == 'District' && Util.checkId(idDistrict)
+          return { modelType, idDistrict }
+        else if Util.checkId(idModel)
+          ret = { modelType }
+          ret['id' + modelType] = idModel
+          return ret
 
       throw Error.ApiError('Invalid reportFor')
 

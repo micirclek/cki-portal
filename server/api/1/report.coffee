@@ -74,7 +74,7 @@ class Report extends Handler
       return Promise.resolve({})
 
     form = Db.Form.findById(model.idForm).exec()
-    entity = Db[model.for.modelType].findById(model.for.idModel).exec()
+    entity = Db[model.for.modelType].findById(model.for['id' + model.for.modelType]).exec()
 
     Promise.props({ form, entity }).tap ({ form, entity }) =>
       if !form || !entity
@@ -154,10 +154,14 @@ class Report extends Handler
           monthStart = new Date(req.model.dateFor.getFullYear(), req.model.dateFor.getMonth())
           monthEnd = new Date(req.model.dateFor.getFullYear(), req.model.dateFor.getMonth() + 1)
 
-          countOthers = Db.Report.count
-            'for.idModel': req.model._id
+          conds = {
             dateFor: { $gte: monthStart, $lt: monthEnd }
             submitted: true
+            'for.modelType': req.model.for.modelType
+          }
+          conds['for.id' + req.model.for.modelType] = req.model._id
+
+          countOthers = Db.Report.count(conds)
 
           Promise.resolve(countOthers.exec())
           .then (count) =>
@@ -204,8 +208,9 @@ class Report extends Handler
           kfamEvents: { validator: validators.integer() }
           answers: { validator: validators.array(validators.reportAnswer()) }
         fx: (req) ->
+          idField = 'id' + req.args.for.modelType
           form = Db.Form.findById(req.args.idForm)
-          entity = Db[req.args.for.modelType].findById(req.args.for.idModel)
+          entity = Db[req.args.for.modelType].findById(req.args.for[idField])
 
           Promise.join form.exec(), entity.exec(), (form, entity) =>
             if !form || !entity
@@ -221,7 +226,6 @@ class Report extends Handler
             if form.for.modelType == 'Club' && !entity.idDistrict.equals(form.for.idDistrict)
               throw Error.ApiError('Form is not for clubs in this district')
 
-            idField = 'id' + form.for.modelType
             positions = req.me.getCurrentPositions()
             if !_.find(positions, (position) -> entity._id.equals(position[idField]))
               throw Error.ApiError('User does not have permission to report for this entity', 403)
@@ -230,12 +234,17 @@ class Report extends Handler
 
             report = new Db.Report
               idForm: req.args.idForm
-              for: req.args.for
+              for:
+                modelType: req.args.for.modelType
               dateFor: req.args.dateFor
               serviceHours: req.args.serviceHours
               interclubs: req.args.interclubs
               kfamEvents: req.args.kfamEvents
               answers: answers
+
+            report.for[idField] = entity.id
+            if entity.idDistrict?
+              report.for.idDistrict = entity.idDistrict
 
             @calculateStats(report, form)
 
