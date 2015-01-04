@@ -8,8 +8,10 @@ ReportSchema = new Schema 'Report',
   idForm: Schema.ObjectId
 
   for: {
-    idModel: { type: Schema.ObjectId, required: true }
     modelType: { type: String, enum: ['Club', 'District'], required: true }
+    idClub: { type: Schema.ObjectId, required: false }
+    idDistrict: { type: Schema.ObjectId, required: false }
+    idModel: { type: Schema.ObjectId, required: true }
   }
 
   submitted: { type: Boolean, default: false }
@@ -25,7 +27,8 @@ ReportSchema = new Schema 'Report',
 
   answers: [AnswerSchema]
 
-ReportSchema.index('for.idModel': 1)
+ReportSchema.index('for.idDistrict': 1, 'for.modelType': 1)
+ReportSchema.index('for.idClub': 1)
 
 ReportSchema.methods.setAnswer = (answer) ->
   a = _.findWhere(@answers, { question: answer.question })
