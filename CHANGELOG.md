@@ -1,6 +1,10 @@
 Changelog
 =========
 
+v0.4.1
+------
+* Fix a bug with being unable to start a new report
+
 v0.4.0
 ------
 * Minor bug fixes
