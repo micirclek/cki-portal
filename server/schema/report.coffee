@@ -9,9 +9,9 @@ ReportSchema = new Schema 'Report',
 
   for: {
     modelType: { type: String, enum: ['Club', 'District'], required: true }
-    idClub: { type: Schema.ObjectId, required: false }
-    idDistrict: { type: Schema.ObjectId, required: false }
-    idModel: { type: Schema.ObjectId, required: true }
+    idClub: { type: Schema.ObjectId }
+    idDistrict: { type: Schema.ObjectId }
+    idModel: { type: Schema.ObjectId }
   }
 
   submitted: { type: Boolean, default: false }
