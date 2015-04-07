@@ -65,7 +65,7 @@ class Club extends Handler
         fx: (req) ->
           query = Db.District.findById(req.args.idDistrict)
           Promise.resolve(query.exec()).then (district) =>
-            if !req.me.hasAccess(district, 'edit') || !req.me.hasAccess(district, 'manage')
+            if !(req.me.hasAccess(district, 'edit') || req.me.hasAccess(district, 'manage'))
               throw Error.ApiError('User does not have permission to create a new club in this district')
 
             Promise.resolve(Db.Club.create(req.args))
