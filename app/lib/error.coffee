@@ -2,11 +2,18 @@ class Error.AjaxError extends Error
   constructor: (ajaxErr) ->
     if !(@ instanceof Error.AjaxError)
       error = new Error.AjaxError(arguments...)
-      Error.captureStackTrace(error, arguments.callee)
+      if Error.captureStackTrace
+        Error.captureStackTrace(error, arguments.callee)
+      else if (stack = new Error().stack)
+        error.stack = stack
       return error
 
     Error.call(@)
-    Error.captureStackTrace(@, arguments.callee)
+    if Error.captureStackTrace
+      Error.captureStackTrace(@, arguments.callee)
+    else if (stack = new Error().stack)
+      @stack = stack
+
     @name = 'AjaxError'
 
     @response = ajaxErr.responseText
