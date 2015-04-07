@@ -11,7 +11,6 @@ ReportSchema = new Schema 'Report',
     modelType: { type: String, enum: ['Club', 'District'], required: true }
     idClub: { type: Schema.ObjectId }
     idDistrict: { type: Schema.ObjectId }
-    idModel: { type: Schema.ObjectId }
   }
 
   submitted: { type: Boolean, default: false }
