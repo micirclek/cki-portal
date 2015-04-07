@@ -51,7 +51,7 @@ class User extends AppModel
   urlRoot: '/1/users'
 
   parse: (data) ->
-    @positions.set(data.positions)
+    @positions.set(data.positions, parse: true)
     delete data.positions
 
     super
