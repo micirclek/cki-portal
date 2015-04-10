@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v0.4.2
+------
+* Add a license file
+* Fix a bug with permissions for creating a new club
+* Fix creating an ApiError in non-Chrome causing an error
+* Fix date comparisons for positions
+
 v0.4.1
 ------
 * Fix a bug with being unable to start a new report
