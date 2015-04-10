@@ -17,7 +17,7 @@ global.App =
 
   path: (relpath...) ->
     path.join(ROOT_DIRECTORY, relpath...)
-global._ = require('underscore')
+global._ = require('lodash')
 global.Util = require(App.path('/server/util'))
 global.Logger = new winston.Logger
 

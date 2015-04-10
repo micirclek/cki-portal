@@ -89,7 +89,8 @@ module.exports = validators =
       else
         num = parseFloat(value)
 
-      if _.isFinite(value) && min <= num <= max
+      # +value will be equal to NaN if it is not a number
+      if !_.isNaN(+value) && min <= num <= max
         return num
 
       throw Error.ApiError('Number exceeded range', 400)
